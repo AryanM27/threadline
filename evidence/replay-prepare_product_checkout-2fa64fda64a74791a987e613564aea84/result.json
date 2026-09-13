@@ -1,0 +1,11 @@
+{
+  "run_id": "replay-181d363e",
+  "capability": "prepare_product_checkout",
+  "status": "business_outcome",
+  "outputs": {},
+  "outcome_code": "authentication_failed",
+  "failure": null,
+  "recoveries": [],
+  "handoffs": [],
+  "evidence_dir": "evidence/replay-prepare_product_checkout-2fa64fda64a74791a987e613564aea84"
+}

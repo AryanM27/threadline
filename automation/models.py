@@ -170,7 +170,8 @@ class CapabilityArtifact(Strict):
     discovery_run_id: str
     model_id: str
     provenance: Literal["discovered", "hand_authored"] = "discovered"
-    name: str
+    derived_from: str | None = None
+    name: str = Field(pattern=r"^[A-Za-z0-9_-]+$")
     description: str
     target: TargetSpec
     inputs: dict[str, InputSpec]
@@ -192,6 +193,11 @@ class CapabilityArtifact(Strict):
             if out.from_step not in ids:
                 raise ValueError(f"output {name!r} references unknown step "
                                  f"{out.from_step!r}")
+        if self.derived_from and self.provenance != "hand_authored":
+            raise ValueError(
+                "derived_from records the discovery run a reviewed derivative was "
+                "built from; a discovered artifact is its own source"
+            )
         return self
 
     def sensitive_input_names(self) -> set[str]:
@@ -209,6 +215,7 @@ class TenantProfile(Strict):
     product_version: str | None = None
     locator_overrides: dict[str, LocatorSpec] = Field(default_factory=dict)
     condition_overrides: dict[str, ConditionSpec] = Field(default_factory=dict)
+    success_condition_override: ConditionSpec | None = None
 
 
 class FailureDetail(Strict):
@@ -229,6 +236,7 @@ class RecoveryRecord(Strict):
 class HandoffSummary(Strict):
     operator: str
     accepted: bool
+    termination: Literal["declined", "timeout", "interrupted"] | None = None
     description: str = ""
     url_trail: list[str] = Field(default_factory=list)
     before_screenshot: str | None = None

@@ -1,0 +1,11 @@
+{
+  "run_id": "replay-74e68aa9",
+  "capability": "lookup_product_20260911_recovery",
+  "status": "business_outcome",
+  "outputs": {},
+  "outcome_code": "no_products_found",
+  "failure": null,
+  "recoveries": [],
+  "handoffs": [],
+  "evidence_dir": "evidence/replay-lookup_product_20260911_recovery-5f4163aa53134c58a76932efaf4de90c"
+}

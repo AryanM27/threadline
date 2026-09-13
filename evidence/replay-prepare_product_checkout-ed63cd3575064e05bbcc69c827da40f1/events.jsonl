@@ -1,0 +1,11 @@
+{"ts": "2026-09-10T17:57:54.382578+00:00", "type": "run_started", "run_id": "replay-78f52b1a", "capability": "prepare_product_checkout", "artifact_version": 1, "tenant": null}
+{"ts": "2026-09-10T17:57:54.383236+00:00", "type": "step_started", "step_id": "s01", "action": "navigate", "risk": "safe"}
+{"ts": "2026-09-10T17:57:55.129383+00:00", "type": "step_succeeded", "step_id": "s01"}
+{"ts": "2026-09-10T17:57:55.129595+00:00", "type": "step_started", "step_id": "s02", "action": "navigate", "risk": "safe"}
+{"ts": "2026-09-10T17:57:55.536610+00:00", "type": "step_succeeded", "step_id": "s02"}
+{"ts": "2026-09-10T17:57:55.536804+00:00", "type": "step_started", "step_id": "s03", "action": "fill", "risk": "safe"}
+{"ts": "2026-09-10T17:57:55.617874+00:00", "type": "step_succeeded", "step_id": "s03"}
+{"ts": "2026-09-10T17:57:55.618055+00:00", "type": "step_started", "step_id": "s04", "action": "click", "risk": "safe"}
+{"ts": "2026-09-10T17:57:56.115874+00:00", "type": "step_succeeded", "step_id": "s04"}
+{"ts": "2026-09-10T17:57:56.116195+00:00", "type": "step_started", "step_id": "s05", "action": "click", "risk": "safe"}
+{"ts": "2026-09-10T17:58:12.316125+00:00", "type": "run_failed", "step_id": "s05", "step_index": 4, "error_code": "locator_not_found", "expected": "a unique visible element for step s05", "observed": "no match at https://automationexercise.com/products?search=Task%2012%20Product%20That%20Does%20Not%20Exist", "screenshot_path": "/Users/aryanmamidwar/Codes/Interface/evidence/replay-prepare_product_checkout-ed63cd3575064e05bbcc69c827da40f1/001-failure.png"}

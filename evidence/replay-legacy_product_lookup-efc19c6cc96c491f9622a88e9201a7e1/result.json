@@ -1,0 +1,18 @@
+{
+  "run_id": "replay-9b6061f0",
+  "capability": "legacy_product_lookup",
+  "status": "failure",
+  "outputs": {},
+  "outcome_code": null,
+  "failure": {
+    "step_id": "start",
+    "step_index": 0,
+    "error_code": "policy_origin_denied",
+    "expected": "an allowed origin and route",
+    "observed": "origin not allowed: http://127.0.0.1:8000/",
+    "screenshot_path": "evidence/replay-legacy_product_lookup-efc19c6cc96c491f9622a88e9201a7e1/001-failure.png"
+  },
+  "recoveries": [],
+  "handoffs": [],
+  "evidence_dir": "evidence/replay-legacy_product_lookup-efc19c6cc96c491f9622a88e9201a7e1"
+}

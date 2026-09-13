@@ -1,0 +1,20 @@
+{
+  "run_id": "replay-6e2a2a3c",
+  "capability": "legacy_product_lookup",
+  "status": "success",
+  "outputs": {
+    "product_name": "Blue Top",
+    "amount_due": "Rs. 500"
+  },
+  "outcome_code": null,
+  "failure": null,
+  "recoveries": [
+    {
+      "step_id": "submit_search",
+      "kind": "interstitial_dismissed",
+      "detail": "Accept"
+    }
+  ],
+  "handoffs": [],
+  "evidence_dir": "evidence/replay-legacy_product_lookup-dba1cdf7330045d7b03a86eb27ba07bd"
+}

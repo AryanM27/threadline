@@ -39,7 +39,7 @@
 | `automation/catalog.py` | `CapabilityCatalog`: artifacts rendered as tool schemas; invoke-by-name. |
 | `automation/cli.py` | `argparse` wiring only. No logic. |
 | `config/policy.json` | Checked-in policy. |
-| `config/tenants/legacy_variant.json` | Tenant variant B profile. |
+| `config/tenants/legacy_variant.json` | Tenant-profile locator overrides used by the local lookup demonstration. |
 | `legacy/index.html` | The hostile surface. |
 | `tests/fakes.py` | `FakeSurface` and artifact fixtures shared by all tests. |
 
@@ -756,11 +756,10 @@ class Observation(BaseModel):
     url: str
     title: str
     a11y: str
-    screenshot_path: str | None = None
 
 
 class Surface(Protocol):
-    def observe(self, screenshot: bool = True) -> Observation: ...
+    def observe(self) -> Observation: ...
     def navigate(self, url: str, timeout_ms: int) -> None: ...
     def click(self, spec: LocatorSpec, timeout_ms: int) -> None: ...
     def fill(self, spec: LocatorSpec, value: str, timeout_ms: int) -> None: ...
@@ -870,9 +869,8 @@ class FakeSurface:
             self._text_values = dict(text_values)
 
     # --- Surface protocol -------------------------------------------------
-    def observe(self, screenshot=True):
-        return Observation(url=self._url, title=self._title, a11y=self._a11y,
-                           screenshot_path=None)
+    def observe(self):
+        return Observation(url=self._url, title=self._title, a11y=self._a11y)
 
     def navigate(self, url, timeout_ms):
         self._trip("navigate")
@@ -1168,13 +1166,12 @@ class PlaywrightSurface:
         return self._page
 
     # --- perception -------------------------------------------------------
-    def observe(self, screenshot: bool = True) -> Observation:
+    def observe(self) -> Observation:
         snapshot = self._page.accessibility.snapshot() or {}
         return Observation(
             url=self._page.url,
             title=self._page.title(),
             a11y=self._render_a11y(snapshot)[:MAX_A11Y_CHARS],
-            screenshot_path=None,
         )
 
     def _render_a11y(self, node: dict, depth: int = 0) -> str:
@@ -1989,7 +1986,7 @@ class TerminalHandoff:
                 surface: Surface) -> HandoffSummary:
         self._go(ControlState.PAUSED)
 
-        observation = surface.observe(screenshot=False)
+        observation = surface.observe()
         before = surface.screenshot(self._evidence.screenshot_path("handoff-before"))
         req = InterventionRequest(
             run_id=run_id, capability=capability, step_id=step_id, reason=reason,
@@ -2971,10 +2968,10 @@ Suggested message: `feat: CLI for discover, replay, and capabilities`.
 
 ---
 
-### Task 11: The legacy surface and tenant variant B
+### Task 11: The legacy surface and tenant-profile demonstration
 
 **Files:**
-- Create: `legacy/index.html`, `config/tenants/legacy_variant.json`
+- Create: `legacy/index.html`, `config/tenants/legacy_variant.json`, `evidence/artifacts/legacy_product_lookup.json`, `config/legacy_product_lookup.inputs.json`
 - Test: exercised through `tests/test_replay.py::test_tenant_profile_overrides_only_named_steps` (already written) plus the manual run below.
 
 **Interfaces:**
@@ -2983,7 +2980,7 @@ Suggested message: `feat: CLI for discover, replay, and capabilities`.
 
 - [ ] **Step 1: Write `legacy/index.html`**
 
-The page is hostile in *structure* — nested tables, no test IDs, no semantic containers — while its controls keep accessible names. That combination is the realistic legacy case, and it is what makes forbidding `css` here a rule discovery can actually follow.
+The page is hostile in *structure* — nested tables, no test IDs, no semantic containers, and an overlay — while its controls keep accessible names. It intentionally has no frameset/iframe or confirmation dialog. This demonstrates accessibility-shaped locators on legacy layout markup, not every hostile-surface mechanism named in the brief.
 
 ```html
 <!doctype html>
@@ -3088,26 +3085,27 @@ with PlaywrightSurface(headless=True) as s:
 
 Expected: the tree shows `button: "Accept"`, `textbox: "Item Lookup"`, and `button: "Find Item"`. If any control appears with an empty name, add an `aria-label` — a nameless control would force `css`, which is forbidden on this surface.
 
-- [ ] **Step 4: Replay the base artifact against variant B**
+- [ ] **Step 4: Replay the separate local lookup artifact with the tenant profile**
 
 ```bash
 python -m automation.cli replay \
-  --artifact evidence/artifacts/prepare_product_checkout.json \
-  --inputs config/inputs.example.json \
+  --artifact evidence/artifacts/legacy_product_lookup.json \
+  --inputs config/legacy_product_lookup.inputs.json \
   --tenant config/tenants/legacy_variant.json \
   --headless
 ```
 
-Expected: the run reaches the overridden steps and reports either `success` or a business outcome. The base artifact's navigate step still points at the public site, so record the observed result honestly in the evidence rather than editing the artifact to make it pass — if the flow needs a tenant-specific entry URL, that is a finding to raise, not to paper over.
+Expected: the local hand-authored lookup artifact reports `success` and its events record four locator overrides. This proves the substitution mechanism on the hostile local page only. The public checkout artifact has a public entry URL and different topology, so the run is not evidence of same-artifact cross-variant reuse; that requires an explicit entry-URL/step-mapping design.
 
 - [ ] **Step 5: Stage for commit**
 
 ```bash
-git add legacy/index.html config/tenants/legacy_variant.json
+git add legacy/index.html config/tenants/legacy_variant.json \
+  evidence/artifacts/legacy_product_lookup.json config/legacy_product_lookup.inputs.json
 git status
 ```
 
-Suggested message: `feat: hostile legacy surface and tenant variant B profile`.
+Suggested message: `feat: hostile legacy lookup and tenant-profile demo`.
 
 ---
 
@@ -3216,7 +3214,7 @@ Suggested message: `evidence: discovery, replay, business outcome, and handoff r
 
 - [ ] **Step 1: Write `README.md`**
 
-It must contain, as literal runnable commands: environment setup (`pip install -e ".[dev]"`, `playwright install chromium`), required keys (`ANTHROPIC_API_KEY`, `AE_EMAIL`, `AE_PASSWORD`) and how to set them, the offline test command (`pytest`), a demo path showing discovery followed by replay of the resulting artifact, a **no-API-key path** replaying a checked-in artifact, and the command to serve the legacy surface and replay against tenant variant B.
+It must contain, as literal runnable commands: environment setup (`pip install -e ".[dev]"`, `playwright install chromium`), required keys (`ANTHROPIC_API_KEY`, `AE_EMAIL`, `AE_PASSWORD`) and how to set them, the offline test command (`pytest`), a demo path showing discovery followed by replay of the resulting artifact, a **no-API-key path** replaying a checked-in artifact, and the command to serve the legacy surface and replay the local lookup artifact with its tenant profile.
 
 - [ ] **Step 2: Write `REPORT.md` using these seven headings verbatim**
 

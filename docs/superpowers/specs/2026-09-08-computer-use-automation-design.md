@@ -4,7 +4,7 @@
 
 Build a reproducible Python vertical slice that uses Claude to discover three workflows on the public Automation Exercise practice site, saves each successful workflow as a typed capability artifact, and replays those artifacts through Playwright without model decisions. The system must enforce safety policy, classify runtime outcomes, capture evidence, and transfer the same live browser session to a human before deleting an account.
 
-Claude perceives every surface through its accessibility tree rather than its DOM. A second, deliberately hostile local surface — frameset and table layout, no test IDs, non-semantic markup — proves that choice and stands in for a second tenant running the same vendor product.
+Claude perceives every surface through its accessibility tree rather than its DOM. A second, deliberately hostile local lookup surface — nested-table layout, no test IDs, non-semantic markup, and an overlay — exercises that choice with a separate hand-authored artifact. It demonstrates the tenant-profile substitution seam, but is not evidence that the public checkout artifact ran unchanged against a second tenant.
 
 The three capabilities are:
 
@@ -20,7 +20,7 @@ The application is a single-process Python 3.12 command-line program. This keeps
 
 Discovery and replay share four components:
 
-- `PolicyEngine` validates origins, routes, action types, and risk before an action and verifies the URL again after navigation.
+- `PolicyEngine` provides exact origin/route, action, and risk checks. Replay brackets every action with live-current and resulting-URL validation; discovery validates the current URL before non-navigation actions, the requested navigation destination, and the resulting URL.
 - `PlaywrightSurface` owns one headed Chromium context and implements accessibility-tree observation, semantic locator resolution, actions, extraction, checkpoints, and screenshots.
 - `EvidenceWriter` writes redacted JSON Lines events and screenshots under `evidence/`.
 - Pydantic models validate artifacts, runtime inputs, interventions, events, and results at trust boundaries.
@@ -35,7 +35,7 @@ Replay replaces Claude and the recorder with `ReplayRunner`. It validates the ar
 
 ## Perception Model
 
-Claude never receives the DOM. `observe()` returns a bounded accessibility snapshot taken through Playwright's accessibility API, alongside the URL, the title, and a screenshot.
+Claude never receives the DOM or a screenshot. `observe()` returns only the current URL, title, and a bounded accessibility snapshot taken through Playwright's accessibility API. Screenshots are captured through a separate evidence operation at defined failures, checkpoints, and handoffs; no image tokens are added to discovery.
 
 This is a structural constraint rather than a stylistic one. Because Claude only ever sees accessible roles, names, and values, it can only describe a target in terms the accessibility tree exposes; it cannot invent a CSS selector from markup it has not been shown. The recorded locator is therefore accessibility-shaped by construction, not by convention.
 
@@ -47,7 +47,7 @@ The cost is accepted deliberately. An accessibility snapshot is noisier than a D
 
 Claude receives only these custom tools:
 
-- `observe()` returns the current URL, title, a bounded accessibility snapshot, and a screenshot.
+- `observe()` returns the current URL, title, and a bounded accessibility snapshot.
 - `navigate(url)` opens an allowlisted URL.
 - `click(target)` activates a semantic target.
 - `fill(target, value_from_input)` retrieves a named runtime input locally and fills it. Claude does not need the secret value.
@@ -59,11 +59,11 @@ Claude receives only these custom tools:
 
 Each mutating tool call follows this sequence:
 
-1. Validate the requested action and current URL against policy.
+1. Validate the live current URL before a non-navigation action, and validate every requested action, risk, and navigation destination against policy.
 2. Resolve the target using the declared semantic locator.
 3. Execute the action with a bounded timeout.
-4. Verify any declared post-action checkpoint.
-5. Validate the resulting URL against policy.
+4. Validate the resulting URL against policy.
+5. Evaluate declared business outcomes, then verify any post-action checkpoint.
 6. Record the replayable action and redacted evidence.
 
 Runtime values are passed by input name, such as `password`, rather than embedded in tool arguments. The recorder writes `value_from_input: "password"`, never the value itself. Non-sensitive goal text is sent to Claude; passwords and other fields marked sensitive remain in local runtime memory.
@@ -181,9 +181,9 @@ The implemented `PlaywrightSurface` conforms to a narrow conceptual contract: `o
 
 ### The legacy surface
 
-`legacy/` is a static page served locally that imitates a legacy back-office screen: a frameset and nested-table layout, no test IDs, non-semantic markup, an interstitial overlay, and a confirmation dialog. It mirrors one flow only — the product-lookup portion of `prepare_product_checkout`.
+`legacy/` is a static page served locally that imitates a legacy back-office screen: nested-table layout, no test IDs, non-semantic markup, and an interstitial overlay. The checked page has neither a frameset/iframe nor a confirmation dialog. It implements a lookup-only flow similar to part of checkout.
 
-It is not a second capability. It exists to make two claims falsifiable rather than merely argued. First, it is a surface on which markup-derived selectors are genuinely useless, so an accessibility-first design either works there or does not. Second, it is the same logical flow behind different markup and branding, which is precisely the multi-tenant condition: the same vendor product, configured differently.
+It is a separate, hand-authored `legacy_product_lookup` capability for the local NorthStar page. It makes one bounded claim falsifiable: semantic accessibility locators and the `TenantProfile` substitution mechanism operate on hostile layout markup. It does not prove that Automation Exercise and NorthStar are the same vendor product, or that one reviewed checkout artifact runs across both surfaces.
 
 Its interactive controls do carry accessible names, through native `label` elements and `aria-label` attributes. This is not a softening of the exercise; it is what separates hostile *structure* from an inaccessible page. Layout markup is table soup with no test IDs and no semantic containers, which is what defeats CSS selectors, while the controls themselves remain nameable — the realistic legacy case, and the precondition that makes forbidding `css` on this surface achievable rather than a rule discovery would immediately have to break.
 
@@ -195,9 +195,9 @@ Conditions need overriding for the same reason locators do: a `visible_text` che
 
 An override replaces one named locator or condition; it never forks the artifact. That constraint is the point. Forking produces N artifacts that drift independently and must each be re-reviewed; overriding keeps one reviewed flow with a small, auditable diff per tenant, and makes the question "what is different about this tenant" answerable by reading a few lines.
 
-The base `prepare_product_checkout` artifact replays against the legacy surface as tenant variant B with a small number of overrides. The scope stays deliberately small: a JSON file and a substitution step, with no tenant registry, override service, or storage layer.
+The checked demonstration applies four locator overrides to the separate hand-authored `legacy_product_lookup` artifact and replays it successfully on the local page. The public `prepare_product_checkout` artifact is not reused: it has public entry URLs and a larger step topology. Full cross-variant reuse therefore remains future work requiring an explicit entry-URL/step-mapping design.
 
-Locator or checkpoint failures become drift signals containing the tenant profile, observed app version when available, current URL, and screenshot. Unattended execution of the affected artifact/tenant combination is disabled until review rather than automatically relearned.
+Locator or checkpoint failures remain structured hard failures with the current URL and screenshot evidence. The invoked tenant profile is known from the run inputs, and replay never relearns or changes it automatically.
 
 ## Capability Catalog
 
@@ -236,7 +236,7 @@ The checked-in `evidence/` directory contains:
 - a replay using an unknown product that returns `product_not_found`;
 - failure or recovery evidence for a simulated/observed transient condition;
 - before/after screenshots and the operator action record for deletion handoff;
-- a replay of the base checkout artifact against the legacy surface under a tenant profile, with the override diff;
+- a replay of the separate hand-authored legacy lookup artifact under a tenant profile, with the applied override events;
 - the exported capability catalog and a log of one capability invoked by name with typed arguments.
 
 The README provides exact commands for environment setup, browser installation, live discovery, artifact replay, offline tests, and a no-API-key replay using checked-in artifacts. Evidence metadata records pinned dependency/model versions and the run timestamp so reviewers can distinguish public-site drift from local nondeterminism.
@@ -306,7 +306,7 @@ The repository is pushed to a public GitHub repository. The repository URL is em
 
 This submission excludes payment/order submission, a remote operator dashboard, true co-browsing, desktop automation, tenant registry or override services, queues, services, databases, replay-time LLM recovery, automatic artifact approval, artifact confidence scoring, code generation from artifacts, and multi-run stability reporting. These should be added only after the core record/replay contract is proven stable.
 
-Two optional stretch goals are taken rather than cut: the capability catalog and cross-variant reuse. Both are projections of work the core already requires — the catalog re-renders the artifact's existing contract, and cross-variant reuse consists of a locator substitution over a surface built to answer a core requirement. Neither adds a subsystem.
+The capability catalog stretch goal is delivered by re-rendering the artifact's existing contract. A tenant-profile locator-substitution seam and a local lookup demonstration are delivered, but same-artifact cross-variant reuse is cut: the proof uses a separate hand-authored artifact and does not establish full public-checkout reuse.
 
 ## References
 

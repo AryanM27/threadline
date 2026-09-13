@@ -1,0 +1,517 @@
+{
+  "schema_version": "1.0",
+  "artifact_version": 7,
+  "created_at": "2026-09-11T02:58:38Z",
+  "discovery_run_id": "discovery-e4e5dc356f484e87b62933aa0b84ba1a",
+  "model_id": "claude-opus-5",
+  "provenance": "hand_authored",
+  "derived_from": "discovery-e4e5dc356f484e87b62933aa0b84ba1a",
+  "name": "prepare_product_checkout",
+  "description": "Search a product, add it to the cart, and stop on checkout review.",
+  "target": {
+    "vendor_product": "automationexercise",
+    "base_url": "https://automationexercise.com",
+    "supported_versions": null
+  },
+  "inputs": {
+    "email": {
+      "type": "string",
+      "required": true,
+      "sensitive": true,
+      "min_value": null,
+      "max_length": null,
+      "pattern": null
+    },
+    "password": {
+      "type": "string",
+      "required": true,
+      "sensitive": true,
+      "min_value": null,
+      "max_length": null,
+      "pattern": null
+    },
+    "product": {
+      "type": "string",
+      "required": true,
+      "sensitive": false,
+      "min_value": null,
+      "max_length": null,
+      "pattern": null
+    },
+    "quantity": {
+      "type": "integer",
+      "required": true,
+      "sensitive": false,
+      "min_value": 1,
+      "max_length": null,
+      "pattern": null
+    }
+  },
+  "outputs": {
+    "product_name": {
+      "type": "string",
+      "from_step": "s21"
+    },
+    "unit_price": {
+      "type": "string",
+      "from_step": "s22"
+    },
+    "cart_total": {
+      "type": "string",
+      "from_step": "s23"
+    }
+  },
+  "steps": [
+    {
+      "id": "s01",
+      "action": "navigate",
+      "url": "https://automationexercise.com",
+      "target": null,
+      "value_from_input": null,
+      "output_name": null,
+      "expect": {"kind": "url_matches", "pattern": "automationexercise\\.com/?([?#].*)?$"},
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": ""
+    },
+    {
+      "id": "s02",
+      "action": "navigate",
+      "url": "https://automationexercise.com/products",
+      "target": null,
+      "value_from_input": null,
+      "output_name": null,
+      "expect": {"kind": "url_matches", "pattern": "/products([?#].*)?$"},
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": ""
+    },
+    {
+      "id": "s03",
+      "action": "fill",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "placeholder",
+          "role": null,
+          "name": null,
+          "value": "Search Product",
+          "exact": false
+        },
+        "fallback": {"kind": "css", "role": null, "name": null, "value": "#search_product", "exact": false}
+      },
+      "value_from_input": "product",
+      "output_name": null,
+      "expect": null,
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": "The search box exposes its placeholder as its accessible name; the id is the structural fallback for a variant that renders the placeholder differently."
+    },
+    {
+      "id": "s04",
+      "action": "click",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "css",
+          "role": null,
+          "name": null,
+          "value": "#submit_search",
+          "exact": false
+        },
+        "fallback": null
+      },
+      "value_from_input": null,
+      "output_name": null,
+      "expect": null,
+      "business_outcomes": [
+        {
+          "code": "product_not_found",
+          "when": {
+            "kind": "element_absent",
+            "pattern": null,
+            "text": null,
+            "target": {
+              "primary": {
+                "kind": "role_name",
+                "role": "link",
+                "name": " View Product",
+                "value": null,
+                "exact": false
+              },
+              "fallback": null
+            },
+            "expected": null
+          },
+          "description": "Search completed without a matching product result."
+        }
+      ],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": "Search submit button has id submit_search and no accessible name text."
+    },
+    {
+      "id": "s05",
+      "action": "click",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "role_name",
+          "role": "link",
+          "name": " View Product",
+          "value": null,
+          "exact": false
+        },
+        "fallback": null
+      },
+      "value_from_input": null,
+      "output_name": null,
+      "expect": {"kind": "url_matches", "pattern": "/product_details/"},
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": "Only one search result; its View Product link opens the product detail page."
+    },
+    {
+      "id": "s06",
+      "action": "fill",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "css",
+          "role": null,
+          "name": null,
+          "value": "#quantity",
+          "exact": false
+        },
+        "fallback": null
+      },
+      "value_from_input": "quantity",
+      "output_name": null,
+      "expect": null,
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": "Quantity spinbutton has no accessible name; stable id #quantity."
+    },
+    {
+      "id": "s07",
+      "action": "click",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "role_name",
+          "role": "button",
+          "name": " Add to cart",
+          "value": null,
+          "exact": false
+        },
+        "fallback": null
+      },
+      "value_from_input": null,
+      "output_name": null,
+      "expect": {
+        "kind": "element_visible",
+        "target": {
+          "primary": {
+            "kind": "role_name",
+            "role": "link",
+            "name": "View Cart",
+            "value": null,
+            "exact": false
+          },
+          "fallback": null
+        }
+      },
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": "Add to cart button on the product detail page."
+    },
+    {
+      "id": "s08",
+      "action": "click",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "role_name",
+          "role": "link",
+          "name": "View Cart",
+          "value": null,
+          "exact": false
+        },
+        "fallback": null
+      },
+      "value_from_input": null,
+      "output_name": null,
+      "expect": {"kind": "url_matches", "pattern": "/view_cart([?#].*)?$"},
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": "The modal's View Cart link navigates to the cart page."
+    },
+    {
+      "id": "s13",
+      "action": "navigate",
+      "url": "https://automationexercise.com/view_cart",
+      "target": null,
+      "value_from_input": null,
+      "output_name": null,
+      "expect": {"kind": "url_matches", "pattern": "/view_cart([?#].*)?$"},
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": ""
+    },
+    {
+      "id": "s14",
+      "action": "click",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "text",
+          "role": null,
+          "name": null,
+          "value": "Proceed To Checkout",
+          "exact": false
+        },
+        "fallback": null
+      },
+      "value_from_input": null,
+      "output_name": null,
+      "expect": {"kind": "visible_text", "text": "Register / Login"},
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": "The checkout control is a text link/button labeled \"Proceed To Checkout\" on the cart page."
+    },
+    {
+      "id": "s15",
+      "action": "click",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "role_name",
+          "role": "link",
+          "name": "Register / Login",
+          "value": null,
+          "exact": false
+        },
+        "fallback": null
+      },
+      "value_from_input": null,
+      "output_name": null,
+      "expect": {"kind": "url_matches", "pattern": "/login([?#].*)?$"},
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": "Modal link leading to the login page."
+    },
+    {
+      "id": "s16",
+      "action": "fill",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "css",
+          "role": null,
+          "name": null,
+          "value": "input[data-qa=\"login-email\"]",
+          "exact": false
+        },
+        "fallback": null
+      },
+      "value_from_input": "email",
+      "output_name": null,
+      "expect": null,
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": "Login email field identified by data-qa attribute; placeholder \"Email Address\" is ambiguous with signup form."
+    },
+    {
+      "id": "s17",
+      "action": "fill",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "css",
+          "role": null,
+          "name": null,
+          "value": "input[data-qa=\"login-password\"]",
+          "exact": false
+        },
+        "fallback": null
+      },
+      "value_from_input": "password",
+      "output_name": null,
+      "expect": null,
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": "Login password field identified by unique data-qa attribute."
+    },
+    {
+      "id": "s18",
+      "action": "click",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "css",
+          "role": null,
+          "name": null,
+          "value": "button[data-qa=\"login-button\"]",
+          "exact": false
+        },
+        "fallback": null
+      },
+      "value_from_input": null,
+      "output_name": null,
+      "expect": null,
+      "business_outcomes": [
+        {
+          "code": "authentication_failed",
+          "when": {
+            "kind": "visible_text",
+            "pattern": null,
+            "text": "Your email or password is incorrect!",
+            "target": null,
+            "expected": null
+          },
+          "description": "The site rejected the supplied synthetic-account credentials."
+        }
+      ],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": "Login submit button identified by unique data-qa attribute."
+    },
+    {
+      "id": "s19",
+      "action": "navigate",
+      "url": "https://automationexercise.com/view_cart",
+      "target": null,
+      "value_from_input": null,
+      "output_name": null,
+      "expect": {"kind": "url_matches", "pattern": "/view_cart([?#].*)?$"},
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": ""
+    },
+    {
+      "id": "s20",
+      "action": "click",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "text",
+          "role": null,
+          "name": null,
+          "value": "Proceed To Checkout",
+          "exact": false
+        },
+        "fallback": null
+      },
+      "value_from_input": null,
+      "output_name": null,
+      "expect": {
+        "kind": "url_matches",
+        "pattern": ".*/checkout$",
+        "text": null,
+        "target": null
+      },
+      "business_outcomes": [
+        {
+          "code": "session_expired",
+          "when": {
+            "kind": "visible_text",
+            "pattern": null,
+            "text": "Register / Login",
+            "target": null,
+            "expected": null
+          },
+          "description": "The authenticated session ended before checkout review."
+        }
+      ],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": "Checkout link on the cart page; now authenticated it should reach the order review page."
+    },
+    {
+      "id": "s21",
+      "action": "extract",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "css",
+          "role": null,
+          "name": null,
+          "value": ".cart_description h4 a",
+          "exact": false
+        },
+        "fallback": null
+      },
+      "value_from_input": null,
+      "output_name": "product_name",
+      "expect": null,
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": "Checkout review contains one cart row; its product link has no stable field label."
+    },
+    {
+      "id": "s22",
+      "action": "extract",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "css",
+          "role": null,
+          "name": null,
+          "value": ".cart_price p",
+          "exact": false
+        },
+        "fallback": null
+      },
+      "value_from_input": null,
+      "output_name": "unit_price",
+      "expect": null,
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": "Checkout review's single cart row exposes unit price only through its stable cart_price class."
+    },
+    {
+      "id": "s23",
+      "action": "extract",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "css",
+          "role": null,
+          "name": null,
+          "value": ".cart_info tbody tr:not(:last-child) .cart_total_price",
+          "exact": false
+        },
+        "fallback": null
+      },
+      "value_from_input": null,
+      "output_name": "cart_total",
+      "expect": null,
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": "Checkout review's product row exposes its total through the stable cart_total_price class; excluding the final total row makes the product-row contract unique."
+    }
+  ],
+  "success_condition": {
+    "kind": "visible_text",
+    "pattern": null,
+    "text": "Review Your Order",
+    "target": null
+  },
+  "business_outcomes": []
+}

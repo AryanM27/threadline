@@ -1,0 +1,40 @@
+{"ts": "2026-09-13T00:34:33.884921+00:00", "type": "run_started", "run_id": "replay-3173a96f", "capability": "prepare_product_checkout", "artifact_version": 7, "tenant": null}
+{"ts": "2026-09-13T00:34:33.885659+00:00", "type": "step_started", "step_id": "s01", "action": "navigate", "risk": "safe"}
+{"ts": "2026-09-13T00:34:34.473138+00:00", "type": "step_succeeded", "step_id": "s01"}
+{"ts": "2026-09-13T00:34:34.473373+00:00", "type": "step_started", "step_id": "s02", "action": "navigate", "risk": "safe"}
+{"ts": "2026-09-13T00:34:34.887897+00:00", "type": "step_succeeded", "step_id": "s02"}
+{"ts": "2026-09-13T00:34:34.888121+00:00", "type": "step_started", "step_id": "s03", "action": "fill", "risk": "safe"}
+{"ts": "2026-09-13T00:34:34.926931+00:00", "type": "step_succeeded", "step_id": "s03"}
+{"ts": "2026-09-13T00:34:34.927101+00:00", "type": "step_started", "step_id": "s04", "action": "click", "risk": "safe"}
+{"ts": "2026-09-13T00:34:35.428386+00:00", "type": "step_succeeded", "step_id": "s04"}
+{"ts": "2026-09-13T00:34:35.428644+00:00", "type": "step_started", "step_id": "s05", "action": "click", "risk": "safe"}
+{"ts": "2026-09-13T00:34:35.587370+00:00", "type": "step_succeeded", "step_id": "s05"}
+{"ts": "2026-09-13T00:34:35.587624+00:00", "type": "step_started", "step_id": "s06", "action": "fill", "risk": "safe"}
+{"ts": "2026-09-13T00:34:35.622751+00:00", "type": "step_succeeded", "step_id": "s06"}
+{"ts": "2026-09-13T00:34:35.622951+00:00", "type": "step_started", "step_id": "s07", "action": "click", "risk": "safe"}
+{"ts": "2026-09-13T00:34:35.830586+00:00", "type": "step_succeeded", "step_id": "s07"}
+{"ts": "2026-09-13T00:34:35.830840+00:00", "type": "step_started", "step_id": "s08", "action": "click", "risk": "safe"}
+{"ts": "2026-09-13T00:34:36.018157+00:00", "type": "step_succeeded", "step_id": "s08"}
+{"ts": "2026-09-13T00:34:36.018405+00:00", "type": "step_started", "step_id": "s13", "action": "navigate", "risk": "safe"}
+{"ts": "2026-09-13T00:34:36.164627+00:00", "type": "step_succeeded", "step_id": "s13"}
+{"ts": "2026-09-13T00:34:36.165116+00:00", "type": "step_started", "step_id": "s14", "action": "click", "risk": "safe"}
+{"ts": "2026-09-13T00:34:36.207169+00:00", "type": "step_succeeded", "step_id": "s14"}
+{"ts": "2026-09-13T00:34:36.207390+00:00", "type": "step_started", "step_id": "s15", "action": "click", "risk": "safe"}
+{"ts": "2026-09-13T00:34:36.378456+00:00", "type": "step_succeeded", "step_id": "s15"}
+{"ts": "2026-09-13T00:34:36.378711+00:00", "type": "step_started", "step_id": "s16", "action": "fill", "risk": "safe"}
+{"ts": "2026-09-13T00:34:36.410313+00:00", "type": "step_succeeded", "step_id": "s16"}
+{"ts": "2026-09-13T00:34:36.410534+00:00", "type": "step_started", "step_id": "s17", "action": "fill", "risk": "safe"}
+{"ts": "2026-09-13T00:34:36.417245+00:00", "type": "step_succeeded", "step_id": "s17"}
+{"ts": "2026-09-13T00:34:36.417412+00:00", "type": "step_started", "step_id": "s18", "action": "click", "risk": "safe"}
+{"ts": "2026-09-13T00:34:36.939653+00:00", "type": "step_succeeded", "step_id": "s18"}
+{"ts": "2026-09-13T00:34:36.939936+00:00", "type": "step_started", "step_id": "s19", "action": "navigate", "risk": "safe"}
+{"ts": "2026-09-13T00:34:37.365308+00:00", "type": "step_succeeded", "step_id": "s19"}
+{"ts": "2026-09-13T00:34:37.365872+00:00", "type": "step_started", "step_id": "s20", "action": "click", "risk": "safe"}
+{"ts": "2026-09-13T00:34:37.551070+00:00", "type": "step_succeeded", "step_id": "s20"}
+{"ts": "2026-09-13T00:34:37.551311+00:00", "type": "step_started", "step_id": "s21", "action": "extract", "risk": "safe"}
+{"ts": "2026-09-13T00:34:37.560869+00:00", "type": "step_succeeded", "step_id": "s21"}
+{"ts": "2026-09-13T00:34:37.561057+00:00", "type": "step_started", "step_id": "s22", "action": "extract", "risk": "safe"}
+{"ts": "2026-09-13T00:34:37.563683+00:00", "type": "step_succeeded", "step_id": "s22"}
+{"ts": "2026-09-13T00:34:37.563803+00:00", "type": "step_started", "step_id": "s23", "action": "extract", "risk": "safe"}
+{"ts": "2026-09-13T00:34:37.566659+00:00", "type": "step_succeeded", "step_id": "s23"}
+{"ts": "2026-09-13T00:34:37.567359+00:00", "type": "run_succeeded", "outputs": {"product_name": "Blue Top", "unit_price": "Rs. 500", "cart_total": "Rs. 500"}}

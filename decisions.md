@@ -14,11 +14,11 @@ This file preserves the project decisions made during planning, the alternatives
 | Discovery model | Claude through the Anthropic API | Accepted; replaces the earlier OpenAI choice |
 | Browser automation | Custom typed Claude tools backed by Playwright | Accepted |
 | Perception | Accessibility tree, never the DOM | Accepted; revises Decision 7 |
-| Second surface | Local hostile/legacy page, doubling as tenant variant B | Accepted |
+| Second surface | Local hostile/legacy lookup page with a tenant-profile demonstration | Accepted with bounded evidence claim |
 | Replay | Deterministic Playwright execution with no model calls | Required |
 | Replay escalation | An interactive hard failure offers the same live-session handoff | Accepted; revises Decision 13 |
 | Tenant reuse | Built: locator overrides in a tenant profile | Accepted; revises Decision 16 |
-| Stretch goals | Capability catalog and cross-variant reuse | Accepted; revises Decision 16 |
+| Stretch goals | Capability catalog and same-artifact legacy cross-variant reuse delivered | Implementation amendment to Decision 20 |
 | Human handoff | Terminal handoff using the same visible Chromium session | Accepted |
 | Risk boundary | Human performs account deletion; payment/order submission is forbidden | Accepted |
 | Artifact | Typed, versioned, parameterized JSON with semantic locators | Accepted |
@@ -590,7 +590,7 @@ Check in three artifacts from genuine Claude discoveries, discovery/replay JSONL
 
 **Decision:** Do not build payment/order submission, a dashboard, true co-browsing, desktop automation, tenant infrastructure, queues, services, databases, replay-time LLM recovery, automatic approval workflows, or stretch goals.
 
-**Amended by Decision 20:** two stretch goals are taken — the capability catalog and cross-variant reuse — and minimal tenant overrides (a JSON profile plus a locator substitution) move from design-only to built. Tenant *infrastructure* — a registry, an override service, storage — stays cut, as does everything else listed here.
+**Amended by Decision 20:** the capability catalog is taken, and minimal tenant overrides (a JSON profile plus locator substitution) move from design-only to built. Same-artifact cross-variant reuse and tenant *infrastructure* — a registry, an override service, storage — stay cut, as does everything else listed here.
 
 **Pros**
 
@@ -606,7 +606,7 @@ Check in three artifacts from genuine Claude discoveries, discovery/replay JSONL
 
 ## Decision 17: Perceive Through the Accessibility Tree, Not the DOM
 
-**Decision:** `observe()` returns a bounded accessibility snapshot. Claude never receives the DOM. `LocatorSpec` kinds are ranked: `role_name` and `label` primary, `placeholder` and `text` secondary, `css` a last resort that must carry a recorded rationale and is forbidden on the legacy surface.
+**Decision:** `observe()` returns URL, title, and a bounded accessibility snapshot. Claude never receives the DOM or screenshots. Screenshot capture is a separate evidence-only operation. `LocatorSpec` kinds are ranked: `role_name` and `label` primary, `placeholder` and `text` secondary, `css` a last resort that must carry a recorded rationale and is forbidden on the legacy surface.
 
 **Why this changed:** An audit of the plan against the assignment found a direct collision. The brief states, of the agent loop, "bias toward an approach that would still work when the surface has no clean DOM — that's the common case in our environment," and names generalization to that environment as an explicit evaluation criterion. The original design listed the accessibility tree as one input among several and treated `role_name` through `css` as a flat menu of equals. That reads as DOM automation with accessibility as a courtesy.
 
@@ -635,16 +635,16 @@ This revises Decision 7 rather than reversing it. Custom typed tools backed by P
 
 ## Decision 18: Build a Local Hostile Surface as a Second Target
 
-**Decision:** Add `legacy/` — a static page served on the loopback interface using a frameset and nested-table layout, no test IDs, non-semantic markup, an interstitial overlay, and a confirmation dialog. It mirrors one flow only: the product-lookup portion of `prepare_product_checkout`. It is simultaneously tenant variant B.
+**Decision:** Add `legacy/` — a static lookup page served on the loopback interface using nested-table layout, no test IDs, non-semantic markup, and an interstitial overlay. Its controls retain accessible names. The checked implementation has no frameset/iframe and no confirmation dialog.
 
-**Why:** Decision 3 chose a public site for the strength of its evidence, and that reasoning stands. But the brief names "an intentionally hostile surface (iframes/framesets, table-based layouts, no test IDs)" as a good target precisely because it exercises the reality the system is meant for, and Automation Exercise does not exercise it at all. A single local page closes that gap without displacing the public target.
+**Why:** Decision 3 chose a public site for the strength of its evidence, and that reasoning stands. The local page adds runnable evidence for table-based layout, missing test IDs, an overlay, and accessibility-shaped locators without displacing the public target. It does not claim to cover the brief's iframe/frameset example.
 
 **Pros**
 
 - It makes Decision 17 falsifiable instead of merely argued: on a surface where markup-derived selectors are useless, an accessibility-first design either works or does not.
-- It is the same logical flow behind different markup and branding, which is exactly the multi-tenant condition the brief describes — the same vendor product, configured differently.
-- It is fully controlled, so the interstitial and dialog cases can be demonstrated on demand rather than waited for.
-- It supplies the cross-variant reuse demonstration at no additional cost.
+- It is a similar lookup flow behind different markup and branding, useful for exercising the tenant-profile substitution mechanism.
+- It is fully controlled, so the overlay case can be demonstrated on demand rather than waited for.
+- It supplies a bounded local tenant-profile demonstration at no additional subsystem cost.
 
 **Cons**
 
@@ -679,21 +679,23 @@ This revises Decision 7 rather than reversing it. Custom typed tools backed by P
 
 This amends the error taxonomy in Decision 13: `hard_failure` now has an interactive branch.
 
-## Decision 20: Take Two Stretch Goals — Capability Catalog and Cross-Variant Reuse
+## Decision 20: Take the Capability Catalog and Demonstrate Tenant Overrides
 
-**Decision:** Build the capability catalog (artifacts exported as tool schemas, invocable by name with typed arguments) and cross-variant reuse (one base artifact replayed against variant B with per-variant locator overrides). Everything else in the optional list stays cut.
+**Original decision:** Build the capability catalog and demonstrate cross-variant reuse by replaying one base artifact with per-variant locator overrides.
+
+**Implementation ruling:** The catalog is delivered. One hand-authored `legacy_product_lookup` artifact also replays successfully on the base and NorthStar variants through origin rebasing, four locator overrides, and two condition overrides. The public checkout artifact has a different entry URL and step topology, so reuse of that artifact on the legacy surfaces is not claimed.
 
 **Why:** Decision 16 cut all stretch goals on the reasoning that breadth is not rewarded, which remains correct. These two are exceptions because neither adds a subsystem — both are projections of work the core already requires.
 
 - The catalog re-renders the contract the artifact already carries; the modeling exists, only the projection is new. Invocation runs the ordinary replay path and grants no execution authority of its own. It is included because the brief's whole framing is that an artifact is a capability an agent calls, and showing one invoked by name is stronger evidence than describing it.
-- Cross-variant reuse is a locator substitution over a surface built to satisfy a core requirement (Decision 18). Without it, the multi-tenant answer stays design-only prose; with it, the same reviewed flow demonstrably runs against two variants.
+- Tenant overrides are a small projection over the replay contract and can be demonstrated locally without a registry or service. Full cross-variant reuse requires an explicit entry-URL/step-mapping design and new evidence; locator substitution alone does not prove it.
 
 **Cons**
 
 - Two more things to build on a schedule already carrying a new surface.
 - The brief cautions against building scaling infrastructure. Guarded by keeping tenant support to a JSON file and a substitution step — no registry, no override service, no storage layer.
 
-The remaining optional goals — artifact confidence scoring and approval gating, code generation from artifacts, bounded LLM recovery on replay failure, and multi-run stability reporting — stay cut.
+The remaining optional goals — a tenant registry, artifact confidence scoring and approval gating, code generation from artifacts, bounded LLM recovery on replay failure, and multi-run stability reporting — stay cut.
 
 ## Amendments From the Assignment Audit
 
@@ -787,3 +789,54 @@ The following preserves the questions asked during planning and the answers that
 - 2026-09-08: Reproducibility-first custom Claude tools with Playwright selected.
 - 2026-09-09: Consolidated decisions, alternatives, pros/cons, and planning Q&A into this log.
 - 2026-09-09: Audited the plan against the assignment PDF. Added Decisions 17–20 (accessibility-first perception, local hostile surface, replay escalation on hard failure, two stretch goals taken), amended Decisions 3, 7, 13, and 16, and recorded ten further corrections under "Amendments From the Assignment Audit".
+
+## Decision 22: Preserve discovery lineage with a raw source copy
+
+**Decision:** A reviewed derivative names its source run in `derived_from`; a raw discovered JSON is copied under `evidence/artifacts/discovered/` and never edited.
+
+**Alternatives:** A flat provenance enum loses the diffable source; editing the discovered artifact destroys the record. Lineage keeps both without adding a history service. No raw copy is claimed until an accepted discovery run exists.
+
+## Decision 23: Record outcomes without evaluating them during discovery
+
+**Decision:** `declare_outcome` records a branch and never evaluates it while discovering.
+
+**Alternatives:** Evaluating a negative branch on the happy path rejects valid discovery; treating it as a failure loses the caller-visible business result. Replay evaluates it after the relevant action.
+
+## Decision 24: Checkpoint navigations automatically
+
+**Decision:** Recorded navigations receive an automatic URL checkpoint; later checkpoints replace only the just-recorded step.
+
+**Alternatives:** The v1 `step_id` retro-attachment could silently attach a claim to the wrong action. Immediate attachment is auditable and makes every recorded navigation checkable.
+
+## Decision 25: Rebase only tenant origins
+
+**Decision:** Tenant rebasing replaces scheme and netloc only; path, query, and fragment remain the reviewed flow.
+
+**Alternatives:** Rewriting paths turns a locator profile into an unreviewed workflow fork. A separate artifact is required when topology changes.
+
+## Decision 26: Recover only from reported interception
+
+**Decision:** Retry a click/fill/select only after `ActionBlocked` proves another element intercepted it; never retry a plain click timeout.
+
+**Alternatives:** Retrying every timeout risks duplicate state-changing actions. A conservative false negative is safer than a double submission.
+
+## Decision 27: Demonstrate two physical legacy variants
+
+**Decision:** Keep base and NorthStar variant pages on separate loopback origins and run one artifact on both.
+
+**Alternatives:** Relabelling one page does not prove tenant reuse. Separate files and ports make rebasing, locator overrides, and version drift observable.
+
+## Decision 28: Prefer accessible names without replacing proven primaries
+
+**Decision:** New locators use accessible names first; a replay-proven test ID remains primary with an accessible fallback.
+
+**Alternatives:** A wholesale locator rewrite creates live drift without evidence. The exception is documented rather than disguised as a new preference.
+
+## Decision 29: Report version drift without blocking replay
+
+**Decision:** Compare `supported_versions` with `product_version` on every tenant run, emit `tenant_version_drift`, and continue.
+
+**Alternatives:** Ignoring drift hides an operational signal; failing on a version string blocks a flow that can still work. Production adds a per-tenant canary and stability signal.
+
+- 2026-09-11: Added audit-remediation decisions 22–29; live evidence claims remain limited to retained run artifacts.
+- 2026-09-12: Task 11 live recovery completed: registration and clean checkout review succeeded with the synthetic account; the s23 product-row selector was corrected, with observed `Rs. 500` unit price and product-row total.

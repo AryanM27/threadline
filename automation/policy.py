@@ -9,11 +9,14 @@ from __future__ import annotations
 
 import fnmatch
 import json
+import re
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
 
 from pydantic import BaseModel, ConfigDict
+
+from automation.models import LocatorSpec
 
 SECRET_KEY_HINTS = ("password", "passwd", "secret", "token", "api_key",
                     "apikey", "authorization", "cookie", "credential")
@@ -47,7 +50,7 @@ def load_policy(path: str | Path) -> Policy:
 
 
 class PolicyEngine:
-    def __init__(self, policy: Policy, allow_dev_origins: bool = True):
+    def __init__(self, policy: Policy, allow_dev_origins: bool = False):
         self._policy = policy
         self._allow_dev = allow_dev_origins
 
@@ -74,15 +77,22 @@ class PolicyEngine:
                 raise PolicyDenied("policy_route_denied",
                                    f"route {path} matches denied pattern {pattern}")
 
-    def check_action(self, action: str) -> None:
+    def check_action(self, action: str, *, risk: str = "safe",
+                     target: LocatorSpec | None = None, url: str | None = None) -> None:
         if action not in self._policy.allowed_actions:
             raise PolicyDenied("policy_action_denied", f"action not allowed: {action}")
+        if (action in {"click", "navigate"} and risk != "requires_human"
+                and _deletes_account(target, url)):
+            raise PolicyDenied(
+                "policy_human_required", "account deletion requires human control",
+            )
 
     def needs_human(self, risk: str) -> bool:
         return risk == "requires_human"
 
 
-def redact(value: Any, sensitive_names: set[str]) -> Any:
+def redact(value: Any, sensitive_names: set[str],
+           sensitive_values: set[str] | None = None) -> Any:
     """Return a copy with sensitive values replaced. Never mutates the input.
 
     A key is redacted when it is named in the artifact's sensitive inputs or
@@ -90,6 +100,10 @@ def redact(value: Any, sensitive_names: set[str]) -> Any:
     a secret is hidden even when the value is empty or unexpected.
     """
     lowered = {n.lower() for n in sensitive_names}
+    secrets = sorted(
+        {str(item) for item in sensitive_values or set() if str(item)},
+        key=len, reverse=True,
+    )
 
     def _walk(node: Any) -> Any:
         if isinstance(node, dict):
@@ -103,6 +117,25 @@ def redact(value: Any, sensitive_names: set[str]) -> Any:
             return out
         if isinstance(node, (list, tuple)):
             return [_walk(item) for item in node]
+        if isinstance(node, str):
+            for secret in secrets:
+                if len(secret) < 3:
+                    pattern = rf"(?<![A-Za-z0-9]){re.escape(secret)}(?![A-Za-z0-9])"
+                    node = re.sub(pattern, REDACTED, node)
+                else:
+                    node = node.replace(secret, REDACTED)
         return node
 
     return _walk(value)
+
+
+def _deletes_account(target: LocatorSpec | None, url: str | None = None) -> bool:
+    values = [urlparse(url).path] if url else []
+    for locator in (target.primary, target.fallback) if target else ():
+        if locator is None:
+            continue
+        values.extend((locator.name, locator.value))
+    return any(
+        {"delete", "deletion"} & set(re.findall(r"[a-z]+", (value or "").casefold()))
+        for value in values
+    )

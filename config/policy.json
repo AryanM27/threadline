@@ -2,7 +2,8 @@
   "allowed_origins": [
     {"scheme": "https", "host": "automationexercise.com"},
     {"scheme": "https", "host": "www.automationexercise.com"},
-    {"scheme": "http", "host": "127.0.0.1", "port": 8000, "dev_only": true}
+    {"scheme": "http", "host": "127.0.0.1", "port": 8000, "dev_only": true},
+    {"scheme": "http", "host": "127.0.0.1", "port": 8001, "dev_only": true}
   ],
   "denied_route_patterns": [
     "/payment*",

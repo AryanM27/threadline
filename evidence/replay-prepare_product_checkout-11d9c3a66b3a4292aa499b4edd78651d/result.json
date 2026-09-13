@@ -1,0 +1,14 @@
+{
+  "run_id": "replay-6bb6bc02",
+  "capability": "prepare_product_checkout",
+  "status": "success",
+  "outputs": {
+    "quantity_field_value": "",
+    "quantity_after_fill": ""
+  },
+  "outcome_code": null,
+  "failure": null,
+  "recoveries": [],
+  "handoffs": [],
+  "evidence_dir": "/Users/aryanmamidwar/Codes/Interface/evidence/replay-prepare_product_checkout-11d9c3a66b3a4292aa499b4edd78651d"
+}

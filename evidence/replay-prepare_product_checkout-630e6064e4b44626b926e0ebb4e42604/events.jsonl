@@ -1,0 +1,9 @@
+{"ts": "2026-09-10T22:04:26.656939+00:00", "type": "run_started", "run_id": "replay-a995436e", "capability": "prepare_product_checkout", "artifact_version": 2, "tenant": null}
+{"ts": "2026-09-10T22:04:26.657508+00:00", "type": "step_started", "step_id": "s01", "action": "navigate", "risk": "safe"}
+{"ts": "2026-09-10T22:04:27.398164+00:00", "type": "step_succeeded", "step_id": "s01"}
+{"ts": "2026-09-10T22:04:27.398344+00:00", "type": "step_started", "step_id": "s02", "action": "navigate", "risk": "safe"}
+{"ts": "2026-09-10T22:04:27.793611+00:00", "type": "step_succeeded", "step_id": "s02"}
+{"ts": "2026-09-10T22:04:27.793787+00:00", "type": "step_started", "step_id": "s03", "action": "fill", "risk": "safe"}
+{"ts": "2026-09-10T22:04:27.842977+00:00", "type": "step_succeeded", "step_id": "s03"}
+{"ts": "2026-09-10T22:04:27.843158+00:00", "type": "step_started", "step_id": "s04", "action": "click", "risk": "safe"}
+{"ts": "2026-09-10T22:04:30.128172+00:00", "type": "business_outcome", "step_id": "s04", "code": "product_not_found"}

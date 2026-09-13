@@ -3,4 +3,8 @@
 __pycache__/
 .pytest_cache/
 .env
-
+config/inputs.json
+config/inputs.notfound.json
+config/inputs.register.json
+config/inputs.final*.json
+*.egg-info/

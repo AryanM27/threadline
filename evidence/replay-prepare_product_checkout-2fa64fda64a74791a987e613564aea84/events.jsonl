@@ -1,0 +1,29 @@
+{"ts": "2026-09-12T03:13:27.548590+00:00", "type": "run_started", "run_id": "replay-181d363e", "capability": "prepare_product_checkout", "artifact_version": 6, "tenant": null}
+{"ts": "2026-09-12T03:13:27.549379+00:00", "type": "step_started", "step_id": "s01", "action": "navigate", "risk": "safe"}
+{"ts": "2026-09-12T03:13:28.269458+00:00", "type": "step_succeeded", "step_id": "s01"}
+{"ts": "2026-09-12T03:13:28.269680+00:00", "type": "step_started", "step_id": "s02", "action": "navigate", "risk": "safe"}
+{"ts": "2026-09-12T03:13:28.657391+00:00", "type": "step_succeeded", "step_id": "s02"}
+{"ts": "2026-09-12T03:13:28.657645+00:00", "type": "step_started", "step_id": "s03", "action": "fill", "risk": "safe"}
+{"ts": "2026-09-12T03:13:28.738729+00:00", "type": "step_succeeded", "step_id": "s03"}
+{"ts": "2026-09-12T03:13:28.738928+00:00", "type": "step_started", "step_id": "s04", "action": "click", "risk": "safe"}
+{"ts": "2026-09-12T03:13:29.149966+00:00", "type": "step_succeeded", "step_id": "s04"}
+{"ts": "2026-09-12T03:13:29.150189+00:00", "type": "step_started", "step_id": "s05", "action": "click", "risk": "safe"}
+{"ts": "2026-09-12T03:13:29.346970+00:00", "type": "step_succeeded", "step_id": "s05"}
+{"ts": "2026-09-12T03:13:29.347171+00:00", "type": "step_started", "step_id": "s06", "action": "fill", "risk": "safe"}
+{"ts": "2026-09-12T03:13:29.434630+00:00", "type": "step_succeeded", "step_id": "s06"}
+{"ts": "2026-09-12T03:13:29.434852+00:00", "type": "step_started", "step_id": "s07", "action": "click", "risk": "safe"}
+{"ts": "2026-09-12T03:13:29.637653+00:00", "type": "step_succeeded", "step_id": "s07"}
+{"ts": "2026-09-12T03:13:29.638098+00:00", "type": "step_started", "step_id": "s08", "action": "click", "risk": "safe"}
+{"ts": "2026-09-12T03:13:29.782796+00:00", "type": "step_succeeded", "step_id": "s08"}
+{"ts": "2026-09-12T03:13:29.783125+00:00", "type": "step_started", "step_id": "s13", "action": "navigate", "risk": "safe"}
+{"ts": "2026-09-12T03:13:29.921482+00:00", "type": "step_succeeded", "step_id": "s13"}
+{"ts": "2026-09-12T03:13:29.921656+00:00", "type": "step_started", "step_id": "s14", "action": "click", "risk": "safe"}
+{"ts": "2026-09-12T03:13:29.999196+00:00", "type": "step_succeeded", "step_id": "s14"}
+{"ts": "2026-09-12T03:13:29.999382+00:00", "type": "step_started", "step_id": "s15", "action": "click", "risk": "safe"}
+{"ts": "2026-09-12T03:13:30.295672+00:00", "type": "step_succeeded", "step_id": "s15"}
+{"ts": "2026-09-12T03:13:30.295973+00:00", "type": "step_started", "step_id": "s16", "action": "fill", "risk": "safe"}
+{"ts": "2026-09-12T03:13:30.375700+00:00", "type": "step_succeeded", "step_id": "s16"}
+{"ts": "2026-09-12T03:13:30.375921+00:00", "type": "step_started", "step_id": "s17", "action": "fill", "risk": "safe"}
+{"ts": "2026-09-12T03:13:30.381439+00:00", "type": "step_succeeded", "step_id": "s17"}
+{"ts": "2026-09-12T03:13:30.381608+00:00", "type": "step_started", "step_id": "s18", "action": "click", "risk": "safe"}
+{"ts": "2026-09-12T03:13:30.634771+00:00", "type": "business_outcome", "step_id": "s18", "code": "authentication_failed"}

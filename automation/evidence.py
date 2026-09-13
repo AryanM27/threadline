@@ -21,26 +21,38 @@ class EvidenceWriter:
         self.run_dir.mkdir(parents=True, exist_ok=True)
         self._events = self.run_dir / "events.jsonl"
         self._sensitive = set(sensitive_names)
+        self._sensitive_values: set[str] = set()
         self._counter = count(1)
+
+    def add_sensitive_values(self, values: set[str]) -> None:
+        self._sensitive_values.update(str(value) for value in values if str(value))
+
+    def redact(self, value: Any) -> Any:
+        return redact(value, self._sensitive, self._sensitive_values)
 
     def event(self, type: str, **fields: Any) -> None:
         record = {
             "ts": datetime.now(timezone.utc).isoformat(),
             "type": type,
-            **redact(fields, self._sensitive),
+            **self.redact(fields),
         }
         with self._events.open("a", encoding="utf-8") as handle:
             handle.write(json.dumps(record, ensure_ascii=False) + "\n")
 
+    def relative_path(self, path: str | Path) -> str:
+        path = Path(path)
+        try:
+            return str(path.relative_to(Path.cwd()))
+        except ValueError:
+            return str(path)
+
     def screenshot_path(self, label: str) -> str:
-        return str(self.run_dir / f"{next(self._counter):03d}-{label}.png")
+        return self.relative_path(self.run_dir / f"{next(self._counter):03d}-{label}.png")
 
     def write_json(self, name: str, obj: Any) -> Path:
         path = self.run_dir / name
         payload = obj.model_dump() if hasattr(obj, "model_dump") else obj
-        safe_payload = payload if isinstance(obj, CapabilityArtifact) else redact(
-            payload, self._sensitive
-        )
+        safe_payload = payload if isinstance(obj, CapabilityArtifact) else self.redact(payload)
         path.write_text(json.dumps(safe_payload, indent=2),
                         encoding="utf-8")
         return path

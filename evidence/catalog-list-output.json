@@ -1,0 +1,135 @@
+{
+  "name": "delete_test_account",
+  "description": "Reach synthetic-account deletion and require human control for the destructive action.\nReturns: account_deleted (boolean).\nKnown business outcomes: cancelled_by_human.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "email": {
+        "type": "string",
+        "writeOnly": true
+      },
+      "password": {
+        "type": "string",
+        "writeOnly": true
+      }
+    },
+    "required": [
+      "email",
+      "password"
+    ]
+  }
+}
+{
+  "name": "legacy_product_lookup",
+  "description": "Look up one product on the local NorthStar legacy surface.\nReturns: product_name (string), amount_due (string).\nKnown business outcomes: none.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "product": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "product"
+    ]
+  }
+}
+{
+  "name": "prepare_product_checkout",
+  "description": "Search a product, add it to the cart, and stop on checkout review.\nReturns: product_name (string), unit_price (string), cart_total (string).\nKnown business outcomes: authentication_failed, product_not_found, session_expired.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "email": {
+        "type": "string",
+        "writeOnly": true
+      },
+      "password": {
+        "type": "string",
+        "writeOnly": true
+      },
+      "product": {
+        "type": "string"
+      },
+      "quantity": {
+        "type": "integer",
+        "minimum": 1
+      }
+    },
+    "required": [
+      "email",
+      "password",
+      "product",
+      "quantity"
+    ]
+  }
+}
+{
+  "name": "register_test_account",
+  "description": "Register a fresh synthetic test account.\nReturns: account_created (boolean).\nKnown business outcomes: email_already_registered.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string"
+      },
+      "email": {
+        "type": "string",
+        "writeOnly": true
+      },
+      "password": {
+        "type": "string",
+        "writeOnly": true
+      },
+      "day": {
+        "type": "string"
+      },
+      "month": {
+        "type": "string"
+      },
+      "year": {
+        "type": "string"
+      },
+      "first_name": {
+        "type": "string"
+      },
+      "last_name": {
+        "type": "string"
+      },
+      "address": {
+        "type": "string"
+      },
+      "country": {
+        "type": "string"
+      },
+      "state": {
+        "type": "string"
+      },
+      "city": {
+        "type": "string"
+      },
+      "zipcode": {
+        "type": "string"
+      },
+      "mobile_number": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "address",
+      "city",
+      "country",
+      "day",
+      "email",
+      "first_name",
+      "last_name",
+      "mobile_number",
+      "month",
+      "name",
+      "password",
+      "state",
+      "year",
+      "zipcode"
+    ]
+  }
+}
