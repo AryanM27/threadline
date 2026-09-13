@@ -1,0 +1,19 @@
+{"ts": "2026-09-11T03:38:19.014838+00:00", "type": "run_started", "run_id": "replay-348d614e", "capability": "delete_test_account", "artifact_version": 4, "tenant": null}
+{"ts": "2026-09-11T03:38:19.015540+00:00", "type": "step_started", "step_id": "s01", "action": "navigate", "risk": "safe"}
+{"ts": "2026-09-11T03:38:19.678016+00:00", "type": "step_succeeded", "step_id": "s01"}
+{"ts": "2026-09-11T03:38:19.678206+00:00", "type": "step_started", "step_id": "s02", "action": "fill", "risk": "safe"}
+{"ts": "2026-09-11T03:38:19.729051+00:00", "type": "step_succeeded", "step_id": "s02"}
+{"ts": "2026-09-11T03:38:19.729250+00:00", "type": "step_started", "step_id": "s03", "action": "fill", "risk": "safe"}
+{"ts": "2026-09-11T03:38:19.746175+00:00", "type": "step_succeeded", "step_id": "s03"}
+{"ts": "2026-09-11T03:38:19.746325+00:00", "type": "step_started", "step_id": "s04", "action": "click", "risk": "safe"}
+{"ts": "2026-09-11T03:38:21.158989+00:00", "type": "step_succeeded", "step_id": "s04"}
+{"ts": "2026-09-11T03:38:21.159218+00:00", "type": "step_started", "step_id": "s05", "action": "click", "risk": "requires_human"}
+{"ts": "2026-09-11T03:38:21.159303+00:00", "type": "control_state", "state": "PAUSED"}
+{"ts": "2026-09-11T03:38:23.366923+00:00", "type": "intervention_requested", "run_id": "replay-348d614e", "capability": "delete_test_account", "step_id": "s05", "reason": "step s05 is marked requires_human", "url": "https://automationexercise.com/", "before_screenshot": "/Users/aryanmamidwar/Codes/Interface/evidence/replay-delete_test_account-378c6f9f48c34ab08209a99152f8016c/001-handoff-before.png"}
+{"ts": "2026-09-11T03:39:55.577870+00:00", "type": "control_state", "state": "HUMAN"}
+{"ts": "2026-09-11T03:41:23.487455+00:00", "type": "intervention_completed", "operator": "Aryan", "description": "Clicked Delete Account once and confirmed ACCOUNT DELETED was visible.", "url_trail": ["https://automationexercise.com/", "https://automationexercise.com/", "https://automationexercise.com/", "https://automationexercise.com/delete_account"], "started_at": "2026-09-11T03:39:55.578741+00:00", "ended_at": "2026-09-11T03:41:23.487445+00:00"}
+{"ts": "2026-09-11T03:41:23.487891+00:00", "type": "control_state", "state": "AUTOMATION"}
+{"ts": "2026-09-11T03:41:23.489899+00:00", "type": "step_succeeded", "step_id": "s05"}
+{"ts": "2026-09-11T03:41:23.490053+00:00", "type": "step_started", "step_id": "s06", "action": "extract", "risk": "safe"}
+{"ts": "2026-09-11T03:41:23.501258+00:00", "type": "step_succeeded", "step_id": "s06"}
+{"ts": "2026-09-11T03:41:23.502149+00:00", "type": "run_succeeded", "outputs": {"account_deleted": true}}

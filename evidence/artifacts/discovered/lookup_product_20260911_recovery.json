@@ -1,0 +1,232 @@
+{
+  "schema_version": "1.0",
+  "artifact_version": 1,
+  "created_at": "2026-09-12T03:25:24.657264+00:00",
+  "discovery_run_id": "discovery-5256f7bddb0f4e0ca06e486363517ab6",
+  "model_id": "claude-opus-5",
+  "provenance": "discovered",
+  "derived_from": null,
+  "name": "lookup_product_20260911_recovery",
+  "description": "Read a product's name and price from the products listing.",
+  "target": {
+    "vendor_product": "automationexercise",
+    "base_url": "https://automationexercise.com",
+    "supported_versions": null
+  },
+  "inputs": {
+    "email": {
+      "type": "string",
+      "required": true,
+      "sensitive": true,
+      "min_value": null,
+      "max_length": null,
+      "pattern": null
+    },
+    "password": {
+      "type": "string",
+      "required": true,
+      "sensitive": true,
+      "min_value": null,
+      "max_length": null,
+      "pattern": null
+    },
+    "product": {
+      "type": "string",
+      "required": true,
+      "sensitive": false,
+      "min_value": null,
+      "max_length": null,
+      "pattern": null
+    },
+    "quantity": {
+      "type": "integer",
+      "required": true,
+      "sensitive": false,
+      "min_value": null,
+      "max_length": null,
+      "pattern": null
+    }
+  },
+  "outputs": {
+    "product_name": {
+      "type": "string",
+      "from_step": "s05"
+    },
+    "product_price": {
+      "type": "string",
+      "from_step": "s06"
+    }
+  },
+  "steps": [
+    {
+      "id": "s01",
+      "action": "navigate",
+      "url": "https://automationexercise.com",
+      "target": null,
+      "value_from_input": null,
+      "output_name": null,
+      "expect": {
+        "kind": "url_matches",
+        "pattern": "/([?#].*)?$",
+        "text": null,
+        "target": null,
+        "expected": null
+      },
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": ""
+    },
+    {
+      "id": "s02",
+      "action": "navigate",
+      "url": "https://automationexercise.com/products",
+      "target": null,
+      "value_from_input": null,
+      "output_name": null,
+      "expect": {
+        "kind": "url_matches",
+        "pattern": "/products([?#].*)?$",
+        "text": null,
+        "target": null,
+        "expected": null
+      },
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": ""
+    },
+    {
+      "id": "s03",
+      "action": "fill",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "role_name",
+          "role": "textbox",
+          "name": "Search Product",
+          "value": null,
+          "exact": false
+        },
+        "fallback": null
+      },
+      "value_from_input": "product",
+      "output_name": null,
+      "expect": null,
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": "The search box has an accessible name \"Search Product\"."
+    },
+    {
+      "id": "s04",
+      "action": "click",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "css",
+          "role": null,
+          "name": null,
+          "value": "#submit_search",
+          "exact": false
+        },
+        "fallback": null
+      },
+      "value_from_input": null,
+      "output_name": null,
+      "expect": {
+        "kind": "element_visible",
+        "pattern": null,
+        "text": null,
+        "target": {
+          "primary": {
+            "kind": "role_name",
+            "role": "heading",
+            "name": "Searched Products",
+            "value": null,
+            "exact": false
+          },
+          "fallback": null
+        },
+        "expected": "Heading \"Searched Products\" is visible after submitting the search."
+      },
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": "The search submit button is an icon-only button with no accessible name; its stable id is #submit_search."
+    },
+    {
+      "id": "s05",
+      "action": "extract",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "css",
+          "role": null,
+          "name": null,
+          "value": ".features_items .product-image-wrapper .productinfo p",
+          "exact": false
+        },
+        "fallback": null
+      },
+      "value_from_input": null,
+      "output_name": "product_name",
+      "expect": null,
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": "Product name paragraph inside the first search result card; plain text with no accessible name so css is required."
+    },
+    {
+      "id": "s06",
+      "action": "extract",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "css",
+          "role": null,
+          "name": null,
+          "value": ".features_items .product-image-wrapper .productinfo h2",
+          "exact": false
+        },
+        "fallback": null
+      },
+      "value_from_input": null,
+      "output_name": "product_price",
+      "expect": null,
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": "Price heading inside the first search result card; headings named \"Rs. 500\" are dynamic, so css is stabler."
+    }
+  ],
+  "success_condition": {
+    "kind": "visible_text",
+    "pattern": null,
+    "text": "Blue Top",
+    "target": null,
+    "expected": "Search results show the product \"Blue Top\" (Rs. 500), whose name and price were extracted."
+  },
+  "business_outcomes": [
+    {
+      "code": "no_products_found",
+      "when": {
+        "kind": "element_absent",
+        "pattern": null,
+        "text": null,
+        "target": {
+          "primary": {
+            "kind": "text",
+            "role": null,
+            "name": null,
+            "value": ".features_items .product-image-wrapper",
+            "exact": false
+          },
+          "fallback": null
+        },
+        "expected": "No product cards under the Searched Products section."
+      },
+      "description": "The search term matched no products: the \"Searched Products\" section renders with no product cards, so no name or price can be read."
+    }
+  ]
+}

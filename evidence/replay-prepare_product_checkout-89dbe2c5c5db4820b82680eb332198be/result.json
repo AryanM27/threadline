@@ -1,0 +1,15 @@
+{
+  "run_id": "replay-3173a96f",
+  "capability": "prepare_product_checkout",
+  "status": "success",
+  "outputs": {
+    "product_name": "Blue Top",
+    "unit_price": "Rs. 500",
+    "cart_total": "Rs. 500"
+  },
+  "outcome_code": null,
+  "failure": null,
+  "recoveries": [],
+  "handoffs": [],
+  "evidence_dir": "evidence/replay-prepare_product_checkout-89dbe2c5c5db4820b82680eb332198be"
+}

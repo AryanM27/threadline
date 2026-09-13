@@ -1,0 +1,3 @@
+{"ts": "2026-09-10T17:47:26.895778+00:00", "type": "tool_call", "tool": "navigate", "turn": 0}
+{"ts": "2026-09-10T17:47:26.896163+00:00", "type": "policy_denied", "tool": "navigate", "code": "policy_origin_denied"}
+{"ts": "2026-09-10T17:47:26.896353+00:00", "type": "discovery_stopped", "reason": "policy_denied"}

@@ -1,0 +1,17 @@
+{
+  "run_id": "replay-587f7703",
+  "capability": "legacy_product_lookup",
+  "status": "business_outcome",
+  "outputs": {},
+  "outcome_code": "product_not_found",
+  "failure": null,
+  "recoveries": [
+    {
+      "step_id": "submit_search",
+      "kind": "interstitial_dismissed",
+      "detail": "Accept"
+    }
+  ],
+  "handoffs": [],
+  "evidence_dir": "evidence/replay-legacy_product_lookup-8c44da524fef49c8be4aaa78e7668f17"
+}

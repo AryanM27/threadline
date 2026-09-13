@@ -1,0 +1,26 @@
+{
+  "tenant_id": "northstar_variant_b",
+  "base_url": "http://127.0.0.1:8001",
+  "product_version": "4.3",
+  "locator_overrides": {
+    "search": {"primary": {"kind": "label", "value": "Item Lookup"},
+               "fallback": {"kind": "css", "value": "input#q"}},
+    "submit_search": {"primary": {"kind": "role_name", "role": "button",
+                                  "name": "Find Item"}},
+    "read_name": {"primary": {"kind": "role_name", "role": "heading",
+                              "name": "Item Description"}},
+    "read_total": {"primary": {"kind": "label", "value": "Amount Due"}}
+  },
+  "condition_overrides": {
+    "start": {"kind": "element_visible",
+              "target": {"primary": {"kind": "label", "value": "Item Lookup"}}},
+    "submit_search": {"kind": "element_visible",
+                      "target": {"primary": {"kind": "role_name", "role": "heading",
+                                             "name": "Item Description"}}}
+  },
+  "success_condition_override": {
+    "kind": "element_visible",
+    "target": {"primary": {"kind": "role_name", "role": "heading",
+                           "name": "Item Description"}}
+  }
+}

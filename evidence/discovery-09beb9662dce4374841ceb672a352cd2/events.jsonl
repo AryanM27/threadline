@@ -1,0 +1,9 @@
+{"ts": "2026-09-10T18:00:52.919812+00:00", "type": "tool_call", "tool": "navigate", "turn": 0}
+{"ts": "2026-09-10T18:00:55.777362+00:00", "type": "tool_call", "tool": "observe", "turn": 1}
+{"ts": "2026-09-10T18:01:02.327999+00:00", "type": "tool_call", "tool": "fill", "turn": 2}
+{"ts": "2026-09-10T18:01:02.351479+00:00", "type": "tool_call", "tool": "fill", "turn": 2}
+{"ts": "2026-09-10T18:01:05.259014+00:00", "type": "tool_call", "tool": "click", "turn": 3}
+{"ts": "2026-09-10T18:01:08.394259+00:00", "type": "tool_call", "tool": "observe", "turn": 4}
+{"ts": "2026-09-10T18:01:12.201957+00:00", "type": "tool_call", "tool": "checkpoint", "turn": 5}
+{"ts": "2026-09-10T18:01:15.633032+00:00", "type": "tool_call", "tool": "complete", "turn": 6}
+{"ts": "2026-09-10T18:01:15.637634+00:00", "type": "discovery_succeeded", "steps": 4}
