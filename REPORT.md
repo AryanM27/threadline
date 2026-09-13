@@ -36,7 +36,6 @@ Still cut: payment/order submission, remote co-browsing, desktop automation, ten
 
 The failed Task 11 discovery directories remain as iteration evidence; the accepted raw run records both a business outcome and a click checkpoint. The requested quantity was 1; the clean successful evidence observed `unit_price` `Rs. 500` and product-row `cart_total` `Rs. 500`.
 
-## 8. Process retrospective, plan lineage, and tooling
 
 ### Retrospective
 
