@@ -5,7 +5,7 @@ from automation.models import (
     BusinessOutcomeSpec, CapabilityArtifact, ConditionSpec, InputSpec,
     Locator, LocatorSpec, OutputSpec, Step,
 )
-from automation.surface import LocatorNotFound, Observation
+from automation.surface import ActionBlocked, LocatorNotFound, Observation
 
 
 def loc(name, role="button"):
@@ -22,7 +22,7 @@ class FakeSurface:
 
     def __init__(self, url="https://automationexercise.com/", title="Home",
                  page_text="", visible=None, text_values=None, a11y="",
-                 fail_once_on=None):
+                 fail_once_on=None, block_once_on=None):
         self._url = url
         self._title = title
         self._page_text = page_text
@@ -30,6 +30,7 @@ class FakeSurface:
         self._text_values = dict(text_values or {})
         self._a11y = a11y
         self._fail_once_on = set(fail_once_on or ())
+        self._block_once_on = set(block_once_on or ())
         self.actions: list[tuple] = []
         self.screenshots: list[str] = []
         self.screenshot_masks: list[list[LocatorSpec] | None] = []
@@ -49,9 +50,8 @@ class FakeSurface:
             self._text_values = dict(text_values)
 
     # --- Surface protocol -------------------------------------------------
-    def observe(self, screenshot=True):
-        return Observation(url=self._url, title=self._title, a11y=self._a11y,
-                           screenshot_path=None)
+    def observe(self):
+        return Observation(url=self._url, title=self._title, a11y=self._a11y)
 
     def navigate(self, url, timeout_ms):
         self._trip("navigate")
@@ -67,6 +67,7 @@ class FakeSurface:
         self.actions.append(("fill", spec.primary.name or spec.primary.value, value))
 
     def select(self, spec, value, timeout_ms):
+        self._trip("select")
         self.actions.append(("select", spec.primary.name or spec.primary.value, value))
 
     def text_of(self, spec, timeout_ms):
@@ -95,6 +96,9 @@ class FakeSurface:
         return lambda: self._nav_callbacks.remove(callback) if callback in self._nav_callbacks else None
 
     def _trip(self, action):
+        if action in self._block_once_on:
+            self._block_once_on.discard(action)
+            raise ActionBlocked(f"<div> intercepts pointer events during {action}")
         if action in self._fail_once_on:
             self._fail_once_on.discard(action)
             raise TimeoutError(f"transient failure on {action}")

@@ -1,4 +1,5 @@
 import pytest
+from threading import Event
 
 from automation.evidence import EvidenceWriter
 from automation.handoff import ControlState, TerminalHandoff
@@ -178,3 +179,37 @@ def test_handoff_exceptions_restore_automation_and_detach_navigation(tmp_path, f
 
     assert handoff.state is ControlState.AUTOMATION
     assert surface._nav_callbacks == []
+
+
+def test_handoff_timeout_is_recorded_and_restores_automation(tmp_path):
+    blocked = Event()
+    evidence = EvidenceWriter(tmp_path, "run-h", set())
+    handoff = TerminalHandoff(
+        evidence=evidence, prompt=lambda _message: blocked.wait(), timeout_seconds=0.01,
+    )
+
+    record = handoff.request(
+        run_id="r1", capability="c", step_id="s1", reason="r", surface=FakeSurface(),
+    )
+
+    assert record.accepted is False
+    assert record.termination == "timeout"
+    assert handoff.state is ControlState.AUTOMATION
+    assert '"reason": "timeout"' in (evidence.run_dir / "events.jsonl").read_text()
+
+
+def test_terminal_eof_is_recorded_as_an_interrupted_handoff(tmp_path):
+    evidence = EvidenceWriter(tmp_path, "run-h", set())
+    handoff = TerminalHandoff(
+        evidence=evidence,
+        prompt=lambda _message: (_ for _ in ()).throw(EOFError()),
+    )
+
+    record = handoff.request(
+        run_id="r1", capability="c", step_id="s1", reason="r", surface=FakeSurface(),
+    )
+
+    assert record.accepted is False
+    assert record.termination == "interrupted"
+    assert handoff.state is ControlState.AUTOMATION
+    assert '"reason": "interrupted"' in (evidence.run_dir / "events.jsonl").read_text()

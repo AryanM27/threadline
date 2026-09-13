@@ -1,9 +1,71 @@
+import json
+from pathlib import Path
+
 import pytest
 from pydantic import ValidationError
+from automation.conditions import evaluate
 from automation.models import (
     CapabilityArtifact, Step, LocatorSpec, Locator, ConditionSpec,
     InputSpec, OutputSpec,
 )
+from tests.fakes import FakeSurface, checkout_artifact
+
+
+SHIPPED = sorted((Path(__file__).resolve().parents[1] / "evidence" / "artifacts").glob("*.json"))
+REVIEWED = [path for path in SHIPPED if json.loads(path.read_text())["provenance"] == "hand_authored"]
+
+
+def _shipped(name):
+    path = Path(__file__).resolve().parents[1] / "evidence" / "artifacts" / f"{name}.json"
+    return CapabilityArtifact(**json.loads(path.read_text()))
+
+
+@pytest.mark.parametrize("path", SHIPPED, ids=lambda p: p.stem)
+def test_every_shipped_artifact_validates_and_checkpoints_its_transitions(path):
+    artifact = CapabilityArtifact(**json.loads(path.read_text()))
+    unchecked = [s.id for s in artifact.steps
+                 if s.action in ("navigate", "click") and s.expect is None
+                 and not s.business_outcomes and s.risk == "safe"]
+    assert unchecked == [], f"{path.stem}: state-changing steps without a checkpoint"
+
+
+@pytest.mark.parametrize("path", REVIEWED, ids=lambda p: p.stem)
+def test_every_reviewed_artifact_declares_at_least_one_fallback(path):
+    artifact = CapabilityArtifact(**json.loads(path.read_text()))
+    assert any(s.target and s.target.fallback for s in artifact.steps)
+
+
+@pytest.mark.parametrize("path", REVIEWED, ids=lambda p: p.stem)
+def test_no_reviewed_condition_uses_expected_as_a_comment(path):
+    artifact = CapabilityArtifact(**json.loads(path.read_text()))
+    conditions = [artifact.success_condition,
+                  *(s.expect for s in artifact.steps if s.expect),
+                  *(o.when for s in artifact.steps for o in s.business_outcomes),
+                  *(o.when for o in artifact.business_outcomes)]
+    assert all(c.expected is None for c in conditions if c.kind != "value_equals")
+
+
+def test_registration_checkpoint_matches_the_observed_account_form_heading():
+    artifact = _shipped("register_test_account")
+    checkpoint = next(step.expect for step in artifact.steps if step.id == "s04")
+
+    assert evaluate(checkpoint, FakeSurface(page_text="ENTER ACCOUNT INFORMATION"))
+
+
+def test_registration_email_mask_covers_the_auto_populated_account_form_field():
+    artifact = _shipped("register_test_account")
+    email_target = next(step.target for step in artifact.steps if step.id == "s03")
+
+    assert email_target.fallback == Locator(kind="css", value='input[data-qa="email"]')
+
+
+def test_checkout_cart_total_selector_excludes_final_total_row():
+    artifact = _shipped("prepare_product_checkout")
+    total_target = next(step.target for step in artifact.steps if step.id == "s23")
+
+    assert total_target.primary == Locator(
+        kind="css", value=".cart_info tbody tr:not(:last-child) .cart_total_price"
+    )
 
 
 def _locator(kind="role_name", **kw):
@@ -55,6 +117,23 @@ def test_provenance_fields_required():
     del data["discovery_run_id"]
     with pytest.raises(ValidationError):
         CapabilityArtifact(**data)
+
+
+def test_hand_authored_artifact_records_the_run_it_derives_from():
+    artifact = checkout_artifact(
+        provenance="hand_authored",
+        derived_from="discovery-e4e5dc356f484e87b62933aa0b84ba1a",
+    )
+    assert artifact.derived_from == "discovery-e4e5dc356f484e87b62933aa0b84ba1a"
+
+
+def test_a_discovered_artifact_cannot_claim_a_derivation():
+    with pytest.raises(ValidationError):
+        checkout_artifact(provenance="discovered", derived_from="discovery-abc")
+
+
+def test_derived_from_defaults_to_none_so_existing_artifacts_still_validate():
+    assert checkout_artifact().derived_from is None
 
 
 def test_css_locator_requires_rationale():

@@ -1,0 +1,8 @@
+{"ts": "2026-09-12T03:09:09.731274+00:00", "type": "run_started", "run_id": "replay-587f7703", "capability": "legacy_product_lookup", "artifact_version": 3, "tenant": null}
+{"ts": "2026-09-12T03:09:09.732025+00:00", "type": "step_started", "step_id": "start", "action": "navigate", "risk": "safe"}
+{"ts": "2026-09-12T03:09:09.795333+00:00", "type": "step_succeeded", "step_id": "start"}
+{"ts": "2026-09-12T03:09:09.795529+00:00", "type": "step_started", "step_id": "search", "action": "fill", "risk": "safe"}
+{"ts": "2026-09-12T03:09:09.805892+00:00", "type": "step_succeeded", "step_id": "search"}
+{"ts": "2026-09-12T03:09:09.806110+00:00", "type": "step_started", "step_id": "submit_search", "action": "click", "risk": "safe"}
+{"ts": "2026-09-12T03:09:13.912916+00:00", "type": "recovered", "step_id": "submit_search", "kind": "interstitial_dismissed", "label": "Accept"}
+{"ts": "2026-09-12T03:09:13.940523+00:00", "type": "business_outcome", "step_id": "submit_search", "code": "product_not_found"}

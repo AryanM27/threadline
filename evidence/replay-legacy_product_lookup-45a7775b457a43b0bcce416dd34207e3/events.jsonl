@@ -1,0 +1,19 @@
+{"ts": "2026-09-12T03:08:52.423887+00:00", "type": "run_started", "run_id": "replay-ff07e559", "capability": "legacy_product_lookup", "artifact_version": 3, "tenant": "northstar_variant_b"}
+{"ts": "2026-09-12T03:08:52.424362+00:00", "type": "tenant_version_drift", "artifact_supports": "4.2", "tenant_runs": "4.3"}
+{"ts": "2026-09-12T03:08:52.424727+00:00", "type": "tenant_override", "step_id": "start", "tenant": "northstar_variant_b", "locator": false, "condition": true, "rebased_url": "http://127.0.0.1:8001/"}
+{"ts": "2026-09-12T03:08:52.424874+00:00", "type": "tenant_override", "step_id": "search", "tenant": "northstar_variant_b", "locator": true, "condition": false, "rebased_url": null}
+{"ts": "2026-09-12T03:08:52.424933+00:00", "type": "tenant_override", "step_id": "submit_search", "tenant": "northstar_variant_b", "locator": true, "condition": true, "rebased_url": null}
+{"ts": "2026-09-12T03:08:52.424975+00:00", "type": "tenant_override", "step_id": "read_name", "tenant": "northstar_variant_b", "locator": true, "condition": false, "rebased_url": null}
+{"ts": "2026-09-12T03:08:52.425010+00:00", "type": "tenant_override", "step_id": "read_total", "tenant": "northstar_variant_b", "locator": true, "condition": false, "rebased_url": null}
+{"ts": "2026-09-12T03:08:52.425332+00:00", "type": "step_started", "step_id": "start", "action": "navigate", "risk": "safe"}
+{"ts": "2026-09-12T03:08:52.482099+00:00", "type": "step_succeeded", "step_id": "start"}
+{"ts": "2026-09-12T03:08:52.482323+00:00", "type": "step_started", "step_id": "search", "action": "fill", "risk": "safe"}
+{"ts": "2026-09-12T03:08:52.494843+00:00", "type": "step_succeeded", "step_id": "search"}
+{"ts": "2026-09-12T03:08:52.495011+00:00", "type": "step_started", "step_id": "submit_search", "action": "click", "risk": "safe"}
+{"ts": "2026-09-12T03:08:56.560831+00:00", "type": "recovered", "step_id": "submit_search", "kind": "interstitial_dismissed", "label": "Accept"}
+{"ts": "2026-09-12T03:08:56.588751+00:00", "type": "step_succeeded", "step_id": "submit_search"}
+{"ts": "2026-09-12T03:08:56.588998+00:00", "type": "step_started", "step_id": "read_name", "action": "extract", "risk": "safe"}
+{"ts": "2026-09-12T03:08:56.592512+00:00", "type": "step_succeeded", "step_id": "read_name"}
+{"ts": "2026-09-12T03:08:56.592644+00:00", "type": "step_started", "step_id": "read_total", "action": "extract", "risk": "safe"}
+{"ts": "2026-09-12T03:08:56.596053+00:00", "type": "step_succeeded", "step_id": "read_total"}
+{"ts": "2026-09-12T03:08:56.598745+00:00", "type": "run_succeeded", "outputs": {"product_name": "Blue Top", "amount_due": "Rs. 500"}}

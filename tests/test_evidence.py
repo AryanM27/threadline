@@ -1,4 +1,6 @@
 import json
+from pathlib import Path
+
 from automation.evidence import EvidenceWriter
 from automation.models import CapabilityArtifact
 from tests.fakes import checkout_artifact
@@ -31,6 +33,12 @@ def test_screenshot_paths_are_unique_and_inside_the_run(tmp_path):
     second = w.screenshot_path("before")
     assert first != second
     assert str(tmp_path / "run-1") in first
+
+
+def test_screenshot_paths_in_evidence_are_relative_to_the_repository(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    writer = EvidenceWriter(tmp_path, "run-x", set())
+    assert not Path(writer.screenshot_path("failure")).is_absolute()
 
 
 def test_written_json_is_redacted(tmp_path):

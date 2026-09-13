@@ -1,4 +1,5 @@
 import pytest
+from automation.models import Locator, LocatorSpec
 from automation.policy import Policy, PolicyEngine, PolicyDenied, redact
 
 
@@ -11,7 +12,16 @@ def _engine():
         ],
         denied_route_patterns=["/payment*", "/order*"],
         allowed_actions=["navigate", "click", "fill", "select", "extract", "assert"],
-    ))
+    ), allow_dev_origins=True)
+
+
+def test_dev_origins_are_denied_by_default():
+    engine = PolicyEngine(Policy(
+        allowed_origins=[{"scheme": "http", "host": "127.0.0.1", "port": 8000,
+                          "dev_only": True}],
+        allowed_actions=["navigate"]))
+    with pytest.raises(PolicyDenied):
+        engine.check_url("http://127.0.0.1:8000/")
 
 
 def test_allowed_origin_passes():
@@ -51,6 +61,22 @@ def test_denied_route_rejected_even_on_allowed_origin():
 def test_unknown_action_denied():
     with pytest.raises(PolicyDenied):
         _engine().check_action("execute_script")
+
+
+def test_safe_navigation_to_account_deletion_requires_human():
+    with pytest.raises(PolicyDenied) as exc:
+        _engine().check_action(
+            "navigate", url="https://automationexercise.com/delete_account",
+        )
+    assert exc.value.code == "policy_human_required"
+
+
+def test_partial_delete_label_requires_human():
+    target = LocatorSpec(primary=Locator(kind="role_name", role="button", name="Delete"))
+
+    with pytest.raises(PolicyDenied) as exc:
+        _engine().check_action("click", target=target)
+    assert exc.value.code == "policy_human_required"
 
 
 def test_requires_human_risk_needs_intervention():

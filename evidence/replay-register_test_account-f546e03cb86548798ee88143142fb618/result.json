@@ -1,0 +1,13 @@
+{
+  "run_id": "replay-763ecbe5",
+  "capability": "register_test_account",
+  "status": "success",
+  "outputs": {
+    "account_created": true
+  },
+  "outcome_code": null,
+  "failure": null,
+  "recoveries": [],
+  "handoffs": [],
+  "evidence_dir": "evidence/replay-register_test_account-f546e03cb86548798ee88143142fb618"
+}

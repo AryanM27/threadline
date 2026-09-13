@@ -1,0 +1,40 @@
+{"ts": "2026-09-13T00:21:52.245684+00:00", "type": "run_started", "run_id": "replay-763ecbe5", "capability": "register_test_account", "artifact_version": 5, "tenant": null}
+{"ts": "2026-09-13T00:21:52.247690+00:00", "type": "step_started", "step_id": "s01", "action": "navigate", "risk": "safe"}
+{"ts": "2026-09-13T00:21:52.956962+00:00", "type": "step_succeeded", "step_id": "s01"}
+{"ts": "2026-09-13T00:21:52.957192+00:00", "type": "step_started", "step_id": "s02", "action": "fill", "risk": "safe"}
+{"ts": "2026-09-13T00:21:52.982547+00:00", "type": "step_succeeded", "step_id": "s02"}
+{"ts": "2026-09-13T00:21:52.982741+00:00", "type": "step_started", "step_id": "s03", "action": "fill", "risk": "safe"}
+{"ts": "2026-09-13T00:21:52.988226+00:00", "type": "step_succeeded", "step_id": "s03"}
+{"ts": "2026-09-13T00:21:52.988417+00:00", "type": "step_started", "step_id": "s04", "action": "click", "risk": "safe"}
+{"ts": "2026-09-13T00:21:53.432610+00:00", "type": "step_succeeded", "step_id": "s04"}
+{"ts": "2026-09-13T00:21:53.432812+00:00", "type": "step_started", "step_id": "s05", "action": "click", "risk": "safe"}
+{"ts": "2026-09-13T00:21:53.457316+00:00", "type": "step_succeeded", "step_id": "s05"}
+{"ts": "2026-09-13T00:21:53.457546+00:00", "type": "step_started", "step_id": "s06", "action": "fill", "risk": "safe"}
+{"ts": "2026-09-13T00:21:53.466967+00:00", "type": "step_succeeded", "step_id": "s06"}
+{"ts": "2026-09-13T00:21:53.467128+00:00", "type": "step_started", "step_id": "s07", "action": "select", "risk": "safe"}
+{"ts": "2026-09-13T00:21:53.471841+00:00", "type": "step_succeeded", "step_id": "s07"}
+{"ts": "2026-09-13T00:21:53.471975+00:00", "type": "step_started", "step_id": "s08", "action": "select", "risk": "safe"}
+{"ts": "2026-09-13T00:21:53.476576+00:00", "type": "step_succeeded", "step_id": "s08"}
+{"ts": "2026-09-13T00:21:53.476752+00:00", "type": "step_started", "step_id": "s09", "action": "select", "risk": "safe"}
+{"ts": "2026-09-13T00:21:53.480894+00:00", "type": "step_succeeded", "step_id": "s09"}
+{"ts": "2026-09-13T00:21:53.481027+00:00", "type": "step_started", "step_id": "s10", "action": "fill", "risk": "safe"}
+{"ts": "2026-09-13T00:21:53.495816+00:00", "type": "step_succeeded", "step_id": "s10"}
+{"ts": "2026-09-13T00:21:53.495973+00:00", "type": "step_started", "step_id": "s11", "action": "fill", "risk": "safe"}
+{"ts": "2026-09-13T00:21:53.502752+00:00", "type": "step_succeeded", "step_id": "s11"}
+{"ts": "2026-09-13T00:21:53.502910+00:00", "type": "step_started", "step_id": "s12", "action": "select", "risk": "safe"}
+{"ts": "2026-09-13T00:21:53.508765+00:00", "type": "step_succeeded", "step_id": "s12"}
+{"ts": "2026-09-13T00:21:53.508897+00:00", "type": "step_started", "step_id": "s13", "action": "fill", "risk": "safe"}
+{"ts": "2026-09-13T00:21:53.514396+00:00", "type": "step_succeeded", "step_id": "s13"}
+{"ts": "2026-09-13T00:21:53.514593+00:00", "type": "step_started", "step_id": "s14", "action": "fill", "risk": "safe"}
+{"ts": "2026-09-13T00:21:53.520505+00:00", "type": "step_succeeded", "step_id": "s14"}
+{"ts": "2026-09-13T00:21:53.520675+00:00", "type": "step_started", "step_id": "s15", "action": "fill", "risk": "safe"}
+{"ts": "2026-09-13T00:21:53.525963+00:00", "type": "step_succeeded", "step_id": "s15"}
+{"ts": "2026-09-13T00:21:53.526120+00:00", "type": "step_started", "step_id": "s16", "action": "fill", "risk": "safe"}
+{"ts": "2026-09-13T00:21:53.532084+00:00", "type": "step_succeeded", "step_id": "s16"}
+{"ts": "2026-09-13T00:21:53.532243+00:00", "type": "step_started", "step_id": "s17", "action": "fill", "risk": "safe"}
+{"ts": "2026-09-13T00:21:53.537654+00:00", "type": "step_succeeded", "step_id": "s17"}
+{"ts": "2026-09-13T00:21:53.537815+00:00", "type": "step_started", "step_id": "s18", "action": "click", "risk": "safe"}
+{"ts": "2026-09-13T00:21:54.031827+00:00", "type": "step_succeeded", "step_id": "s18"}
+{"ts": "2026-09-13T00:21:54.032132+00:00", "type": "step_started", "step_id": "s19", "action": "extract", "risk": "safe"}
+{"ts": "2026-09-13T00:21:54.056559+00:00", "type": "step_succeeded", "step_id": "s19"}
+{"ts": "2026-09-13T00:21:54.057510+00:00", "type": "run_succeeded", "outputs": {"account_created": true}}
