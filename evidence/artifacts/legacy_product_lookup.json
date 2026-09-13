@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "artifact_version": 3,
+  "created_at": "2026-09-10T18:20:00+00:00",
+  "discovery_run_id": "manual-legacy-product-lookup",
+  "model_id": "none",
+  "provenance": "hand_authored",
+  "derived_from": null,
+  "name": "legacy_product_lookup",
+  "description": "Look up one product on the local Servicing Console surface.",
+  "target": {
+    "vendor_product": "servicing_console",
+    "base_url": "http://127.0.0.1:8000",
+    "supported_versions": "4.2"
+  },
+  "inputs": {
+    "product": {
+      "type": "string",
+      "required": true,
+      "sensitive": false,
+      "min_value": null,
+      "max_length": null,
+      "pattern": null
+    }
+  },
+  "outputs": {
+    "product_name": {"type": "string", "from_step": "read_name"},
+    "amount_due": {"type": "string", "from_step": "read_total"}
+  },
+  "steps": [
+    {
+      "id": "start",
+      "action": "navigate",
+      "url": "http://127.0.0.1:8000/",
+      "expect": {
+        "kind": "element_visible",
+        "target": {"primary": {"kind": "label", "value": "Product Search"}}
+      }
+    },
+    {
+      "id": "search",
+      "action": "fill",
+      "value_from_input": "product",
+      "target": {
+        "primary": {"kind": "label", "value": "Product Search"},
+        "fallback": {"kind": "css", "value": "input#q"}
+      },
+      "locator_rationale": "The field is labelled, so the label is the portable primary; the id is a structural fallback for a variant that drops the label association."
+    },
+    {
+      "id": "submit_search",
+      "action": "click",
+      "timeout_ms": 3000,
+      "target": {"primary": {"kind": "role_name", "role": "button", "name": "Search"}},
+      "locator_rationale": "The only button in the lookup row exposes its visible text as its accessible name.",
+      "business_outcomes": [
+        {
+          "code": "product_not_found",
+          "when": {"kind": "visible_text", "text": "No products found"},
+          "description": "The catalog has no item under that name."
+        }
+      ],
+      "expect": {
+        "kind": "element_visible",
+        "target": {"primary": {"kind": "role_name", "role": "heading", "name": "Product Name"}}
+      }
+    },
+    {
+      "id": "read_name",
+      "action": "extract",
+      "output_name": "product_name",
+      "target": {"primary": {"kind": "role_name", "role": "heading", "name": "Product Name"}},
+      "locator_rationale": "The result heading exposes an accessible name even though the markup is a span in a nested table."
+    },
+    {
+      "id": "read_total",
+      "action": "extract",
+      "output_name": "amount_due",
+      "target": {"primary": {"kind": "label", "value": "Total"}},
+      "locator_rationale": "aria-label supplies the accessible name; the surrounding table cells carry no semantics."
+    }
+  ],
+  "success_condition": {
+    "kind": "element_visible",
+    "target": {"primary": {"kind": "role_name", "role": "heading", "name": "Product Name"}}
+  },
+  "business_outcomes": []
+}

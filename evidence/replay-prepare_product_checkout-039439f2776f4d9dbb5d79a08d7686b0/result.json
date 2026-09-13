@@ -1,0 +1,18 @@
+{
+  "run_id": "replay-012f5b4a",
+  "capability": "prepare_product_checkout",
+  "status": "failure",
+  "outputs": {},
+  "outcome_code": null,
+  "failure": {
+    "step_id": "s07",
+    "step_index": 6,
+    "error_code": "checkpoint_failed",
+    "expected": "visible_text(Added!)",
+    "observed": "at https://automationexercise.com/product_details/1",
+    "screenshot_path": "evidence/replay-prepare_product_checkout-039439f2776f4d9dbb5d79a08d7686b0/001-failure.png"
+  },
+  "recoveries": [],
+  "handoffs": [],
+  "evidence_dir": "evidence/replay-prepare_product_checkout-039439f2776f4d9dbb5d79a08d7686b0"
+}

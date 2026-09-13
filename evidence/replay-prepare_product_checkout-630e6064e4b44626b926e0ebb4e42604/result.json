@@ -1,0 +1,11 @@
+{
+  "run_id": "replay-a995436e",
+  "capability": "prepare_product_checkout",
+  "status": "business_outcome",
+  "outputs": {},
+  "outcome_code": "product_not_found",
+  "failure": null,
+  "recoveries": [],
+  "handoffs": [],
+  "evidence_dir": "/Users/aryanmamidwar/Codes/Interface/evidence/replay-prepare_product_checkout-630e6064e4b44626b926e0ebb4e42604"
+}

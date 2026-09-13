@@ -1,0 +1,42 @@
+{"ts": "2026-09-10T18:03:19.152531+00:00", "type": "run_started", "run_id": "replay-6bb6bc02", "capability": "prepare_product_checkout", "artifact_version": 1, "tenant": "northstar_variant_b"}
+{"ts": "2026-09-10T18:03:19.153076+00:00", "type": "step_started", "step_id": "s01", "action": "navigate", "risk": "safe"}
+{"ts": "2026-09-10T18:03:19.643515+00:00", "type": "step_succeeded", "step_id": "s01"}
+{"ts": "2026-09-10T18:03:19.643781+00:00", "type": "step_started", "step_id": "s02", "action": "navigate", "risk": "safe"}
+{"ts": "2026-09-10T18:03:19.817783+00:00", "type": "step_succeeded", "step_id": "s02"}
+{"ts": "2026-09-10T18:03:19.818012+00:00", "type": "step_started", "step_id": "s03", "action": "fill", "risk": "safe"}
+{"ts": "2026-09-10T18:03:19.852494+00:00", "type": "step_succeeded", "step_id": "s03"}
+{"ts": "2026-09-10T18:03:19.852647+00:00", "type": "step_started", "step_id": "s04", "action": "click", "risk": "safe"}
+{"ts": "2026-09-10T18:03:20.128946+00:00", "type": "step_succeeded", "step_id": "s04"}
+{"ts": "2026-09-10T18:03:20.129140+00:00", "type": "step_started", "step_id": "s05", "action": "click", "risk": "safe"}
+{"ts": "2026-09-10T18:03:20.334170+00:00", "type": "step_succeeded", "step_id": "s05"}
+{"ts": "2026-09-10T18:03:20.334391+00:00", "type": "step_started", "step_id": "s06", "action": "fill", "risk": "safe"}
+{"ts": "2026-09-10T18:03:20.374949+00:00", "type": "step_succeeded", "step_id": "s06"}
+{"ts": "2026-09-10T18:03:20.375107+00:00", "type": "step_started", "step_id": "s07", "action": "click", "risk": "safe"}
+{"ts": "2026-09-10T18:03:20.396791+00:00", "type": "step_succeeded", "step_id": "s07"}
+{"ts": "2026-09-10T18:03:20.396976+00:00", "type": "step_started", "step_id": "s08", "action": "click", "risk": "safe"}
+{"ts": "2026-09-10T18:03:20.746768+00:00", "type": "step_succeeded", "step_id": "s08"}
+{"ts": "2026-09-10T18:03:20.746982+00:00", "type": "step_started", "step_id": "s09", "action": "navigate", "risk": "safe"}
+{"ts": "2026-09-10T18:03:20.914417+00:00", "type": "step_succeeded", "step_id": "s09"}
+{"ts": "2026-09-10T18:03:20.915217+00:00", "type": "step_started", "step_id": "s10", "action": "extract", "risk": "safe"}
+{"ts": "2026-09-10T18:03:20.938004+00:00", "type": "step_succeeded", "step_id": "s10"}
+{"ts": "2026-09-10T18:03:20.938167+00:00", "type": "step_started", "step_id": "s11", "action": "fill", "risk": "safe"}
+{"ts": "2026-09-10T18:03:20.943009+00:00", "type": "step_succeeded", "step_id": "s11"}
+{"ts": "2026-09-10T18:03:20.943263+00:00", "type": "step_started", "step_id": "s12", "action": "extract", "risk": "safe"}
+{"ts": "2026-09-10T18:03:20.946289+00:00", "type": "step_succeeded", "step_id": "s12"}
+{"ts": "2026-09-10T18:03:20.946450+00:00", "type": "step_started", "step_id": "s13", "action": "navigate", "risk": "safe"}
+{"ts": "2026-09-10T18:03:21.109685+00:00", "type": "step_succeeded", "step_id": "s13"}
+{"ts": "2026-09-10T18:03:21.110456+00:00", "type": "step_started", "step_id": "s14", "action": "click", "risk": "safe"}
+{"ts": "2026-09-10T18:03:21.147096+00:00", "type": "step_succeeded", "step_id": "s14"}
+{"ts": "2026-09-10T18:03:21.147294+00:00", "type": "step_started", "step_id": "s15", "action": "click", "risk": "safe"}
+{"ts": "2026-09-10T18:03:21.315504+00:00", "type": "step_succeeded", "step_id": "s15"}
+{"ts": "2026-09-10T18:03:21.315789+00:00", "type": "step_started", "step_id": "s16", "action": "fill", "risk": "safe"}
+{"ts": "2026-09-10T18:03:21.344875+00:00", "type": "step_succeeded", "step_id": "s16"}
+{"ts": "2026-09-10T18:03:21.345066+00:00", "type": "step_started", "step_id": "s17", "action": "fill", "risk": "safe"}
+{"ts": "2026-09-10T18:03:21.352172+00:00", "type": "step_succeeded", "step_id": "s17"}
+{"ts": "2026-09-10T18:03:21.352324+00:00", "type": "step_started", "step_id": "s18", "action": "click", "risk": "safe"}
+{"ts": "2026-09-10T18:03:21.859277+00:00", "type": "step_succeeded", "step_id": "s18"}
+{"ts": "2026-09-10T18:03:21.859829+00:00", "type": "step_started", "step_id": "s19", "action": "navigate", "risk": "safe"}
+{"ts": "2026-09-10T18:03:22.069720+00:00", "type": "step_succeeded", "step_id": "s19"}
+{"ts": "2026-09-10T18:03:22.070013+00:00", "type": "step_started", "step_id": "s20", "action": "click", "risk": "safe"}
+{"ts": "2026-09-10T18:03:22.256285+00:00", "type": "step_succeeded", "step_id": "s20"}
+{"ts": "2026-09-10T18:03:22.273980+00:00", "type": "run_succeeded", "outputs": {"quantity_field_value": "", "quantity_after_fill": ""}}

@@ -1,0 +1,18 @@
+{
+  "run_id": "replay-78f52b1a",
+  "capability": "prepare_product_checkout",
+  "status": "failure",
+  "outputs": {},
+  "outcome_code": null,
+  "failure": {
+    "step_id": "s05",
+    "step_index": 4,
+    "error_code": "locator_not_found",
+    "expected": "a unique visible element for step s05",
+    "observed": "no match at https://automationexercise.com/products?search=Task%2012%20Product%20That%20Does%20Not%20Exist",
+    "screenshot_path": "/Users/aryanmamidwar/Codes/Interface/evidence/replay-prepare_product_checkout-ed63cd3575064e05bbcc69c827da40f1/001-failure.png"
+  },
+  "recoveries": [],
+  "handoffs": [],
+  "evidence_dir": "/Users/aryanmamidwar/Codes/Interface/evidence/replay-prepare_product_checkout-ed63cd3575064e05bbcc69c827da40f1"
+}

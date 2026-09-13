@@ -1,0 +1,24 @@
+{
+  "run_id": "replay-99dbb892",
+  "capability": "delete_test_account",
+  "status": "success",
+  "outputs": {},
+  "outcome_code": null,
+  "failure": null,
+  "recoveries": [],
+  "handoffs": [
+    {
+      "operator": "Aryan",
+      "accepted": true,
+      "description": "Clicked Delete Account and confirmed ACCOUNT DELETED was visible.",
+      "url_trail": [
+        "https://automationexercise.com/",
+        "https://automationexercise.com/",
+        "https://automationexercise.com/delete_account"
+      ],
+      "before_screenshot": "/Users/aryanmamidwar/Codes/Interface/evidence/replay-delete_test_account-6f20ce8496904d51b9b4a26fa02865ac/001-handoff-before.png",
+      "after_screenshot": "/Users/aryanmamidwar/Codes/Interface/evidence/replay-delete_test_account-6f20ce8496904d51b9b4a26fa02865ac/002-handoff-after.png"
+    }
+  ],
+  "evidence_dir": "/Users/aryanmamidwar/Codes/Interface/evidence/replay-delete_test_account-6f20ce8496904d51b9b4a26fa02865ac"
+}

@@ -1,0 +1,182 @@
+{
+  "schema_version": "1.0",
+  "artifact_version": 5,
+  "created_at": "2026-09-11T02:58:38Z",
+  "discovery_run_id": "discovery-09beb9662dce4374841ceb672a352cd2",
+  "model_id": "claude-opus-5",
+  "provenance": "hand_authored",
+  "derived_from": "discovery-09beb9662dce4374841ceb672a352cd2",
+  "name": "delete_test_account",
+  "description": "Reach synthetic-account deletion and require human control for the destructive action.",
+  "target": {
+    "vendor_product": "automationexercise",
+    "base_url": "https://automationexercise.com",
+    "supported_versions": null
+  },
+  "inputs": {
+    "email": {
+      "type": "string",
+      "required": true,
+      "sensitive": true,
+      "min_value": null,
+      "max_length": null,
+      "pattern": null
+    },
+    "password": {
+      "type": "string",
+      "required": true,
+      "sensitive": true,
+      "min_value": null,
+      "max_length": null,
+      "pattern": null
+    }
+  },
+  "outputs": {
+    "account_deleted": {
+      "type": "boolean",
+      "from_step": "s06"
+    }
+  },
+  "steps": [
+    {
+      "id": "s01",
+      "action": "navigate",
+      "url": "https://automationexercise.com/login",
+      "target": null,
+      "value_from_input": null,
+      "output_name": null,
+      "expect": {"kind": "url_matches", "pattern": "/login([?#].*)?$"},
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": ""
+    },
+    {
+      "id": "s02",
+      "action": "fill",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "css",
+          "role": null,
+          "name": null,
+          "value": "input[data-qa=\"login-email\"]",
+          "exact": false
+        },
+        "fallback": null
+      },
+      "value_from_input": "email",
+      "output_name": null,
+      "expect": null,
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": "Two textboxes share the accessible name \"Email Address\" (login and signup), so the stable data-qa hook disambiguates the login one."
+    },
+    {
+      "id": "s03",
+      "action": "fill",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "css",
+          "role": null,
+          "name": null,
+          "value": "input[data-qa=\"login-password\"]",
+          "exact": false
+        },
+        "fallback": null
+      },
+      "value_from_input": "password",
+      "output_name": null,
+      "expect": null,
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": "Password field in the login form identified by its stable data-qa attribute."
+    },
+    {
+      "id": "s04",
+      "action": "click",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "role_name",
+          "role": "button",
+          "name": "Login",
+          "value": null,
+          "exact": false
+        },
+        "fallback": {"kind": "css", "role": null, "name": null, "value": "button[data-qa=\"login-button\"]", "exact": false}
+      },
+      "value_from_input": null,
+      "output_name": null,
+      "expect": {
+        "kind": "visible_text",
+        "pattern": null,
+        "text": "Logged in as",
+        "target": null
+      },
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": "The labelled button is the portable primary; the vendor's test id is a fallback for a variant that relabels it."
+    },
+    {
+      "id": "s05",
+      "action": "click",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "role_name",
+          "role": "link",
+          "name": "Delete Account",
+          "value": null,
+          "exact": false
+        },
+        "fallback": null
+      },
+      "value_from_input": null,
+      "output_name": null,
+      "expect": {
+        "kind": "visible_text",
+        "pattern": null,
+        "text": "ACCOUNT DELETED!",
+        "target": null
+      },
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "requires_human",
+      "locator_rationale": "The live pre-deletion discovery verified the accessible Delete Account link; the destructive click is reserved for the human operator."
+    },
+    {
+      "id": "s06",
+      "action": "extract",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "role_name",
+          "role": "heading",
+          "name": "Account Deleted!",
+          "value": null,
+          "exact": false
+        },
+        "fallback": null
+      },
+      "value_from_input": null,
+      "output_name": "account_deleted",
+      "expect": null,
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": "The post-handoff deletion confirmation heading supplies the boolean output."
+    }
+  ],
+  "success_condition": {
+    "kind": "visible_text",
+    "pattern": null,
+    "text": "ACCOUNT DELETED!",
+    "target": null
+  },
+  "business_outcomes": []
+}

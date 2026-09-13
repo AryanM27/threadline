@@ -1,0 +1,6 @@
+{
+  "email": {"env": "AE_EMAIL"},
+  "password": {"env": "AE_PASSWORD"},
+  "product": "Blue Top",
+  "quantity": 1
+}

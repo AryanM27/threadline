@@ -1,0 +1,13 @@
+{"ts": "2026-09-12T03:06:38.227432+00:00", "type": "run_started", "run_id": "replay-6e2a2a3c", "capability": "legacy_product_lookup", "artifact_version": 3, "tenant": null}
+{"ts": "2026-09-12T03:06:38.228441+00:00", "type": "step_started", "step_id": "start", "action": "navigate", "risk": "safe"}
+{"ts": "2026-09-12T03:06:38.346826+00:00", "type": "step_succeeded", "step_id": "start"}
+{"ts": "2026-09-12T03:06:38.347020+00:00", "type": "step_started", "step_id": "search", "action": "fill", "risk": "safe"}
+{"ts": "2026-09-12T03:06:38.362145+00:00", "type": "step_succeeded", "step_id": "search"}
+{"ts": "2026-09-12T03:06:38.362304+00:00", "type": "step_started", "step_id": "submit_search", "action": "click", "risk": "safe"}
+{"ts": "2026-09-12T03:06:42.411665+00:00", "type": "recovered", "step_id": "submit_search", "kind": "interstitial_dismissed", "label": "Accept"}
+{"ts": "2026-09-12T03:06:42.436711+00:00", "type": "step_succeeded", "step_id": "submit_search"}
+{"ts": "2026-09-12T03:06:42.436941+00:00", "type": "step_started", "step_id": "read_name", "action": "extract", "risk": "safe"}
+{"ts": "2026-09-12T03:06:42.440672+00:00", "type": "step_succeeded", "step_id": "read_name"}
+{"ts": "2026-09-12T03:06:42.440826+00:00", "type": "step_started", "step_id": "read_total", "action": "extract", "risk": "safe"}
+{"ts": "2026-09-12T03:06:42.444324+00:00", "type": "step_succeeded", "step_id": "read_total"}
+{"ts": "2026-09-12T03:06:42.446804+00:00", "type": "run_succeeded", "outputs": {"product_name": "Blue Top", "amount_due": "Rs. 500"}}

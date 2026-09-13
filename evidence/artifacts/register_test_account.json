@@ -1,0 +1,576 @@
+{
+  "schema_version": "1.0",
+  "artifact_version": 5,
+  "created_at": "2026-09-11T02:58:38Z",
+  "discovery_run_id": "discovery-13cca73621aa405b818c44398e093bfb",
+  "model_id": "claude-opus-5",
+  "provenance": "hand_authored",
+  "derived_from": "discovery-13cca73621aa405b818c44398e093bfb",
+  "name": "register_test_account",
+  "description": "Register a fresh synthetic test account.",
+  "target": {
+    "vendor_product": "automationexercise",
+    "base_url": "https://automationexercise.com",
+    "supported_versions": null
+  },
+  "inputs": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "sensitive": false,
+      "min_value": null,
+      "max_length": null,
+      "pattern": null
+    },
+    "email": {
+      "type": "string",
+      "required": true,
+      "sensitive": true,
+      "min_value": null,
+      "max_length": null,
+      "pattern": null
+    },
+    "password": {
+      "type": "string",
+      "required": true,
+      "sensitive": true,
+      "min_value": null,
+      "max_length": null,
+      "pattern": null
+    },
+    "day": {
+      "type": "string",
+      "required": true,
+      "sensitive": false,
+      "min_value": null,
+      "max_length": null,
+      "pattern": null
+    },
+    "month": {
+      "type": "string",
+      "required": true,
+      "sensitive": false,
+      "min_value": null,
+      "max_length": null,
+      "pattern": null
+    },
+    "year": {
+      "type": "string",
+      "required": true,
+      "sensitive": false,
+      "min_value": null,
+      "max_length": null,
+      "pattern": null
+    },
+    "first_name": {
+      "type": "string",
+      "required": true,
+      "sensitive": false,
+      "min_value": null,
+      "max_length": null,
+      "pattern": null
+    },
+    "last_name": {
+      "type": "string",
+      "required": true,
+      "sensitive": false,
+      "min_value": null,
+      "max_length": null,
+      "pattern": null
+    },
+    "address": {
+      "type": "string",
+      "required": true,
+      "sensitive": false,
+      "min_value": null,
+      "max_length": null,
+      "pattern": null
+    },
+    "country": {
+      "type": "string",
+      "required": true,
+      "sensitive": false,
+      "min_value": null,
+      "max_length": null,
+      "pattern": null
+    },
+    "state": {
+      "type": "string",
+      "required": true,
+      "sensitive": false,
+      "min_value": null,
+      "max_length": null,
+      "pattern": null
+    },
+    "city": {
+      "type": "string",
+      "required": true,
+      "sensitive": false,
+      "min_value": null,
+      "max_length": null,
+      "pattern": null
+    },
+    "zipcode": {
+      "type": "string",
+      "required": true,
+      "sensitive": false,
+      "min_value": null,
+      "max_length": null,
+      "pattern": null
+    },
+    "mobile_number": {
+      "type": "string",
+      "required": true,
+      "sensitive": false,
+      "min_value": null,
+      "max_length": null,
+      "pattern": null
+    }
+  },
+  "outputs": {
+    "account_created": {
+      "type": "boolean",
+      "from_step": "s19"
+    }
+  },
+  "steps": [
+    {
+      "id": "s01",
+      "action": "navigate",
+      "url": "https://automationexercise.com/login",
+      "target": null,
+      "value_from_input": null,
+      "output_name": null,
+      "expect": {"kind": "url_matches", "pattern": "/login([?#].*)?$"},
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": ""
+    },
+    {
+      "id": "s02",
+      "action": "fill",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "css",
+          "role": null,
+          "name": null,
+          "value": "input[data-qa=\"signup-name\"]",
+          "exact": false
+        },
+        "fallback": null
+      },
+      "value_from_input": "name",
+      "output_name": null,
+      "expect": null,
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": "Signup name field has a stable data-qa attribute; the accessible name \"Name\" is unique but css is safer alongside duplicate email fields."
+    },
+    {
+      "id": "s03",
+      "action": "fill",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "css",
+          "role": null,
+          "name": null,
+          "value": "input[data-qa=\"signup-email\"]",
+          "exact": false
+        },
+        "fallback": {
+          "kind": "css",
+          "role": null,
+          "name": null,
+          "value": "input[data-qa=\"email\"]",
+          "exact": false
+        }
+      },
+      "value_from_input": "email",
+      "output_name": null,
+      "expect": null,
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": "There are two \"Email Address\" textboxes on login; signup-email disambiguates the signup one. The fallback masks its auto-populated email rendering on the account form."
+    },
+    {
+      "id": "s04",
+      "action": "click",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "role_name",
+          "role": "button",
+          "name": "Signup",
+          "value": null,
+          "exact": false
+        },
+        "fallback": null
+      },
+      "value_from_input": null,
+      "output_name": null,
+      "expect": {"kind": "visible_text", "text": "ENTER ACCOUNT INFORMATION"},
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": "Unique signup submit button by role and accessible name."
+    },
+    {
+      "id": "s05",
+      "action": "click",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "role_name",
+          "role": "radio",
+          "name": "Mr.",
+          "value": null,
+          "exact": false
+        },
+        "fallback": null
+      },
+      "value_from_input": null,
+      "output_name": null,
+      "expect": {"kind": "element_visible", "target": {"primary": {"kind": "role_name", "role": "textbox", "name": "Password *"}}},
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": "Title radio has unique accessible name \"Mr.\"."
+    },
+    {
+      "id": "s06",
+      "action": "fill",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "role_name",
+          "role": "textbox",
+          "name": "Password *",
+          "value": null,
+          "exact": false
+        },
+        "fallback": {"kind": "css", "role": null, "name": null, "value": "input[data-qa=\"signup-password\"]", "exact": false}
+      },
+      "value_from_input": "password",
+      "output_name": null,
+      "expect": null,
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": "The labelled field is the portable primary; the vendor's test id is a fallback for a variant that relabels it."
+    },
+    {
+      "id": "s07",
+      "action": "select",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "css",
+          "role": null,
+          "name": null,
+          "value": "select#days",
+          "exact": false
+        },
+        "fallback": null
+      },
+      "value_from_input": "day",
+      "output_name": null,
+      "expect": null,
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": "Day combobox has no accessible name; id \"days\" is stable."
+    },
+    {
+      "id": "s08",
+      "action": "select",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "css",
+          "role": null,
+          "name": null,
+          "value": "select#months",
+          "exact": false
+        },
+        "fallback": null
+      },
+      "value_from_input": "month",
+      "output_name": null,
+      "expect": null,
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": "Month combobox has no accessible name; id \"months\" is stable."
+    },
+    {
+      "id": "s09",
+      "action": "select",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "css",
+          "role": null,
+          "name": null,
+          "value": "select#years",
+          "exact": false
+        },
+        "fallback": null
+      },
+      "value_from_input": "year",
+      "output_name": null,
+      "expect": null,
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": "Year combobox has no accessible name; id \"years\" is stable."
+    },
+    {
+      "id": "s10",
+      "action": "fill",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "role_name",
+          "role": "textbox",
+          "name": "First name *",
+          "value": null,
+          "exact": false
+        },
+        "fallback": null
+      },
+      "value_from_input": "first_name",
+      "output_name": null,
+      "expect": null,
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": "Unique accessible name for first name field."
+    },
+    {
+      "id": "s11",
+      "action": "fill",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "role_name",
+          "role": "textbox",
+          "name": "Last name *",
+          "value": null,
+          "exact": false
+        },
+        "fallback": null
+      },
+      "value_from_input": "last_name",
+      "output_name": null,
+      "expect": null,
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": "Unique accessible name for last name field."
+    },
+    {
+      "id": "s12",
+      "action": "select",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "role_name",
+          "role": "combobox",
+          "name": "Country *",
+          "value": null,
+          "exact": false
+        },
+        "fallback": null
+      },
+      "value_from_input": "country",
+      "output_name": null,
+      "expect": null,
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": "Country combobox has a unique accessible name."
+    },
+    {
+      "id": "s13",
+      "action": "fill",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "role_name",
+          "role": "textbox",
+          "name": "State *",
+          "value": null,
+          "exact": false
+        },
+        "fallback": null
+      },
+      "value_from_input": "state",
+      "output_name": null,
+      "expect": null,
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": "Unique accessible name for state field."
+    },
+    {
+      "id": "s14",
+      "action": "fill",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "css",
+          "role": null,
+          "name": null,
+          "value": "input#city",
+          "exact": false
+        },
+        "fallback": null
+      },
+      "value_from_input": "city",
+      "output_name": null,
+      "expect": null,
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": "City accessible name is ambiguous (\"City * Zipcode *\"); id is stable."
+    },
+    {
+      "id": "s15",
+      "action": "fill",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "css",
+          "role": null,
+          "name": null,
+          "value": "input#zipcode",
+          "exact": false
+        },
+        "fallback": null
+      },
+      "value_from_input": "zipcode",
+      "output_name": null,
+      "expect": null,
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": "Zipcode textbox has no accessible name; id is stable."
+    },
+    {
+      "id": "s16",
+      "action": "fill",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "role_name",
+          "role": "textbox",
+          "name": "Mobile Number *",
+          "value": null,
+          "exact": false
+        },
+        "fallback": null
+      },
+      "value_from_input": "mobile_number",
+      "output_name": null,
+      "expect": null,
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": "Unique accessible name for mobile number field."
+    },
+    {
+      "id": "s17",
+      "action": "fill",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "role_name",
+          "role": "textbox",
+          "name": "Address * (Street address, P.O. Box, Company name, etc.)",
+          "value": null,
+          "exact": false
+        },
+        "fallback": null
+      },
+      "value_from_input": "address",
+      "output_name": null,
+      "expect": null,
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": "Using the exact accessible name shown in the tree for the required address field."
+    },
+    {
+      "id": "s18",
+      "action": "click",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "role_name",
+          "role": "button",
+          "name": "Create Account",
+          "value": null,
+          "exact": false
+        },
+        "fallback": null
+      },
+      "value_from_input": null,
+      "output_name": null,
+      "expect": {
+        "kind": "url_matches",
+        "pattern": ".*/account_created",
+        "text": null,
+        "target": null
+      },
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": "Unique submit button for the signup form."
+    },
+    {
+      "id": "s19",
+      "action": "extract",
+      "url": null,
+      "target": {
+        "primary": {
+          "kind": "role_name",
+          "role": "heading",
+          "name": "Account Created!",
+          "value": null,
+          "exact": false
+        },
+        "fallback": null
+      },
+      "value_from_input": null,
+      "output_name": "account_created",
+      "expect": null,
+      "business_outcomes": [],
+      "timeout_ms": 10000,
+      "risk": "safe",
+      "locator_rationale": "The account-created confirmation heading supplies the boolean success output."
+    }
+  ],
+  "success_condition": {
+    "kind": "visible_text",
+    "pattern": null,
+    "text": "ACCOUNT CREATED!",
+    "target": null
+  },
+  "business_outcomes": [
+    {
+      "code": "email_already_registered",
+      "when": {
+        "kind": "visible_text",
+        "pattern": null,
+        "text": "Email Address already exist!",
+        "target": null
+      },
+      "description": "The supplied synthetic email is already registered."
+    }
+  ]
+}
